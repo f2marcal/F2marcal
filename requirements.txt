@@ -2,3 +2,4 @@ yfinance==0.1.64
 pandas_datareader==0.10.0
 matplotlib==3.4.3
 telegram==0.0.1
+python-telegram-bot==13.8.1
