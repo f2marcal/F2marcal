@@ -3723,6 +3723,7 @@ if col3 == "INDICADORES NÍVEL I":
     # Figuras
 
     fig1, fig2 = st.columns(2)
+    fig3, fig4 = st.columns(2)
 
     with fig1:
         st.markdown("Ações Bloco 1")
@@ -3848,6 +3849,7 @@ if col3 == "INDICADORES NÍVEL II":
     # Figuras
 
     fig1, fig2 = st.columns(2)
+    fig3, fig4 = st.columns(2)
 
     with fig1:
         st.markdown("Ações Bloco 1")
@@ -3975,6 +3977,7 @@ if col4 == "INDICADORES NÍVEL I ":
     # Figuras
 
     fig1, fig2 = st.columns(2)
+    fig3, fig4 = st.columns(2)
 
     with fig1:
         st.markdown("Ações Bloco 1")
@@ -4017,7 +4020,7 @@ if col4 == "INDICADORES NÍVEL II ":
         """
     )
 
-    acoes = ['SHIB-USD','DOGE-USD','IOTX-USD','XRP-USD','BTT1-USD','BTC-USD','SOL1-USD','DOT1-USD','AVAX-USD','ETH-USD']
+    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC','BTT1-USD','STX-BTC','SOL1-BTC','DOT1-BTC','AVAX-BTC','ETH-BTC','YGG-BTC','GXS-BTC','ROSE-BTC','ATOM-BTC','MANA-BTC']
 
     listasigla = []
     listaindicador = []
