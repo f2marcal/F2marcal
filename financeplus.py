@@ -4088,7 +4088,7 @@ if col4 == "INDICADORES NÍVEL II ":
             return rsi
 
 
-        sigla['RSI'] = computeRSI(btc_df['close']), 14)
+        sigla['RSI'] = computeRSI(df), 14)
 
 
         def stochastic(data, k_window, d_window, window):
