@@ -12,6 +12,9 @@ from IPython.core.display import display, HTML
 display(HTML("<style>.container { width:100% !important; }</style>"))
 import telegram
 from binance.client import Client
+import json
+
+
 
 api_key = 'VMcjzDusoLH0C3e3rqPqyQyyOlUGk7IxJR0Ncy3ysh00hNzBtCZSz3KcFYxcIH2M'
 api_secret = 'Qsy4QGQhS5JyXy5yF9y2bZKuNhrQIiXdRleMuSVBamXl8VbEmm8QJAjV3Wju9oLN'
