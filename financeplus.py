@@ -252,7 +252,7 @@ if col == "CARTEIRA - INDICADORES: NÍVEL II":
 
     # Figuras
 
-    fig1, fig2, fig3, fig4 = st.columns(4)
+    fig1, fig2 = st.columns(2)
 
     with fig1:
         st.markdown("Ações Bloco 1")
@@ -4099,6 +4099,9 @@ if col4 == "INDICADORES NÍVEL II ":
     st.markdown("INDICATORS")
 
     # Figuras
+
+    fig1, fig2 = st.columns(2)
+    fig3, fig4 = st.columns(2)
 
     with fig1:
         st.markdown("Ações Bloco 1")
