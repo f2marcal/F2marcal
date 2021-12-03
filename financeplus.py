@@ -4020,7 +4020,7 @@ if col4 == "INDICADORES NÍVEL II ":
         """
     )
 
-    acoes = ['SHIB-USD']
+    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC']
 
     listasigla = []
     listaindicador = []
