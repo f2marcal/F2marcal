@@ -4041,7 +4041,7 @@ if col4 == "INDICADORES NÍVEL II ":
         listasigla.append(sigla)
         # Pegando preços intervalo de 15 minutos
 
-        btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1WEEK)
+        btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1DAY)
 
         # transformando o json
         with open('btc_df.json', 'w') as e:
@@ -4056,6 +4056,10 @@ if col4 == "INDICADORES NÍVEL II ":
         (btc_df)
         btc_df['close'].iloc[-1]
 
+        btc_df['close'] = pd.to_numeric(btc_df['close'])
+
+        # DATAFRAME
+        df = btc_df['close']
 
 
         def computeRSI(data, time_window):
