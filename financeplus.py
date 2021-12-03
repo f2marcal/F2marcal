@@ -4017,7 +4017,7 @@ if col4 == "INDICADORES NÍVEL II ":
         """
     )
 
-    acoes = ['SHIB-USD','DOGE-USD','IOTX-USD','XRP-USD','BTT1-USD','BTC-USD','SOL1-USD','DOT1-USD','AVAX-USD','ETH-USD']
+    acoes = ['DOT1-USD','AVAX-USD','ETH-USD']
 
     listasigla = []
     listaindicador = []
@@ -4115,8 +4115,6 @@ if col4 == "INDICADORES NÍVEL II ":
         ax = fig.add_axes([0, 0, 1, 1])
         ax.bar(listasigla[5:11], listaindicador[5:11])
         st.pyplot(plt)
-
-
 
     st.markdown("<hr/>", unsafe_allow_html=True)
 
