@@ -4060,6 +4060,7 @@ if col4 == "INDICADORES NÍVEL II ":
 
         # DATAFRAME
         df = btc_df['close']
+        df.apply(lambda x: float(x))
 
 
         def computeRSI(data, time_window):
@@ -4087,7 +4088,7 @@ if col4 == "INDICADORES NÍVEL II ":
             return rsi
 
 
-        sigla['RSI'] = computeRSI(float(btc_df['close']), 14)
+        sigla['RSI'] = computeRSI(btc_df['close']), 14)
 
 
         def stochastic(data, k_window, d_window, window):
