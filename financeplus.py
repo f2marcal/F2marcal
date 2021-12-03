@@ -4049,7 +4049,7 @@ if col4 == "INDICADORES NÍVEL II ":
         (btc_df)
         print(btc_df['close'])
 
-        btc_df['close'] = pd.to_numeric(btc_df['close'])
+        btc_df['close'] = pd.to_numeric(btc_df['close'].iloc[-1])
 
         # DATAFRAME
         df = btc_df
@@ -4080,7 +4080,7 @@ if col4 == "INDICADORES NÍVEL II ":
             return rsi
 
 
-        acao['RSI'] = computeRSI(df, 14)
+        acao['RSI'] = computeRSI(btc_df['close'].iloc[-1], 14)
 
 
         def stochastic(data, k_window, d_window, window):
