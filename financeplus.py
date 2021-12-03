@@ -4055,7 +4055,7 @@ if col4 == "INDICADORES NÍVEL II ":
         btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
         (btc_df)
 
-        asa = btc_df.iloc[-1]-btc_df.iloc[-2]
+        asa = (btc_df.iloc[-1])-(btc_df.iloc[-2])
         asa
 
 
