@@ -4020,7 +4020,7 @@ if col4 == "INDICADORES NÍVEL II ":
         """
     )
 
-    siglas = ['DOGEBTC']
+    siglas = ['ETHBTC','LTCBTC']
 
 
 
