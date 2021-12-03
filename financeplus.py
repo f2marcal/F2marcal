@@ -4087,7 +4087,7 @@ if col4 == "INDICADORES NÍVEL II ":
             return rsi
 
 
-        acao['RSI'] = computeRSI(btc_df['close'].iloc[-1], 14)
+        acao['RSI'] = computeRSI(df, 14)
 
 
         def stochastic(data, k_window, d_window, window):
