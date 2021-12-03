@@ -4048,10 +4048,10 @@ if col4 == "INDICADORES NÍVEL II ":
             json.dump(btcbrl, e)
 
         for line in btcbrl:
-            del line[5:]
+            del line[1:]
 
         btc_df = pd.DataFrame(btcbrl, columns=['close'])
-        
+       
         (btc_df)
 
 
