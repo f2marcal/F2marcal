@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from IPython.core.display import display, HTML
 display(HTML("<style>.container { width:100% !important; }</style>"))
 import telegram
-import binance.client
+import Client
 from binance.client import Client
 
 
