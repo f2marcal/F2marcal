@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 from IPython.core.display import display, HTML
 display(HTML("<style>.container { width:100% !important; }</style>"))
 import telegram
+import json
+from binance.client import Client
 
 
 #TELEGRAM
@@ -4031,7 +4033,7 @@ if col4 == "INDICADORES NÍVEL II ":
 
         # Pegando preços intervalo de 15 minutos
 
-        btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_5MINUTE)
+        btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1WEEK)
 
         # transformando o json
         with open('btc_df.json', 'w') as e:
