@@ -4043,6 +4043,8 @@ if col4 == "INDICADORES NÍVEL II ":
 
         btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1WEEK)
 
+        btcbrl
+
         # transformando o json
         with open('btc_df.json', 'w') as e:
             json.dump(btcbrl, e)
