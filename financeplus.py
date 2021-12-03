@@ -4050,7 +4050,7 @@ if col4 == "INDICADORES NÍVEL II ":
         for line in btcbrl:
             del line[5:]
 
-        btc_df = pd.DataFrame(btcbrl, columns=['date', 'open', 'high', 'low', 'close'])
+        btc_df = pd.DataFrame(float(btcbrl), columns=['date', 'open', 'high', 'low', 'close'])
         btc_df.set_index('date', inplace=True)
         btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
         (btc_df)
