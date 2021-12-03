@@ -4017,7 +4017,7 @@ if col4 == "INDICADORES NÍVEL II ":
         """
     )
 
-    acoes = ['DOT1-USD']
+    acoes = ['SHIB-USD','DOGE-USD','IOTX-USD','XRP-USD','BTT1-USD','BTC-USD','SOL1-USD','DOT1-USD','AVAX-USD','ETH-USD']
 
     listasigla = []
     listaindicador = []
@@ -4114,6 +4114,22 @@ if col4 == "INDICADORES NÍVEL II ":
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
         ax.bar(listasigla[5:11], listaindicador[5:11])
+        st.pyplot(plt)
+
+    with fig3:
+        st.markdown("Ações Bloco 3")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[11:17], listaindicador[11:17])
+        st.pyplot(plt)
+
+    with fig4:
+        st.markdown("Ações Bloco 4")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[17:23], listaindicador[17:23])
         st.pyplot(plt)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
