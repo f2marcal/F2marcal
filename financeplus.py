@@ -4041,7 +4041,7 @@ if col4 == "INDICADORES NÍVEL II ":
         listasigla.append(sigla)
         # Pegando preços intervalo de 15 minutos
 
-        btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1DAY)
+        btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1WEEK)
 
         # transformando o json
         with open('btc_df.json', 'w') as e:
@@ -4087,7 +4087,7 @@ if col4 == "INDICADORES NÍVEL II ":
             return rsi
 
 
-        sigla['RSI'] = computeRSI(btc_df['close'], 14)
+        sigla['RSI'] = computeRSI(btc_df[float('close')], 14)
 
 
         def stochastic(data, k_window, d_window, window):
