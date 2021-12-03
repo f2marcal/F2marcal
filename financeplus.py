@@ -4017,7 +4017,7 @@ if col4 == "INDICADORES NÍVEL II ":
         """
     )
 
-    acoes = ['DOT1-USD','AVAX-USD','ETH-USD']
+    acoes = ['DOT1-USD']
 
     listasigla = []
     listaindicador = []
