@@ -4054,7 +4054,7 @@ if col4 == "INDICADORES NÍVEL II ":
         btc_df.set_index('date', inplace=True)
         btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
         (btc_df)
-        print(btc_df['close'])
+        btc_df['close']
 
         btc_df['close'] = pd.to_numeric(btc_df['close'].iloc[-1])
 
