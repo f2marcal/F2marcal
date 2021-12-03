@@ -4020,18 +4020,36 @@ if col4 == "INDICADORES NÍVEL II ":
         """
     )
 
-    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC','BTT1-USD','SOL1-BTC', 'DOT1-BTC', 'AVAX-BTC', 'ETH-BTC','MANA-BTC','AION-BTC','Cocos-BTC']
+    siglas = ['SHIB']
 
 
 
     listasigla = []
     listaindicador = []
 
-    for acao in acoes:
+    for sigla in siglas:
 
-        listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1mo", interval="1wk")
-        sinal_preco = acao['Adj Close'].iloc[-1]
+        # Pegando preços intervalo de 15 minutos
+
+        btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_5MINUTE)
+
+        # transformando o json
+        with open('btc_df.json', 'w') as e:
+            json.dump(btcbrl, e)
+
+        for line in btcbrl:
+            del line[5:]
+
+        btc_df = pd.DataFrame(btcbrl, columns=['date', 'open', 'high', 'low', 'close'])
+        btc_df.set_index('date', inplace=True)
+        btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
+        (btc_df)
+        print(btc_df['close'])
+
+        btc_df['close'] = pd.to_numeric(btc_df['close'])
+
+        # DATAFRAME
+        df = btc_df
 
 
         def computeRSI(data, time_window):
@@ -4059,7 +4077,7 @@ if col4 == "INDICADORES NÍVEL II ":
             return rsi
 
 
-        acao['RSI'] = computeRSI(acao['Adj Close'], 14)
+        acao['RSI'] = computeRSI(df, 14)
 
 
         def stochastic(data, k_window, d_window, window):
