@@ -1,9 +1,7 @@
 import streamlit as st
 import pandas as pd
 pd.set_option('display.float_format', lambda x: '%.2f' % x)
-import numpy as np
 import datetime
-import time
 import pandas_datareader.data as web
 import yfinance as yf
 yf.pdr_override()
