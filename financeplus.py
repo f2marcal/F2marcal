@@ -1,7 +1,9 @@
 import streamlit as st
 import pandas as pd
 pd.set_option('display.float_format', lambda x: '%.2f' % x)
+import numpy as np
 import datetime
+import time
 import pandas_datareader.data as web
 import yfinance as yf
 yf.pdr_override()
@@ -4029,6 +4031,7 @@ if col4 == "INDICADORES NÍVEL II ":
 
     for sigla in siglas:
 
+        listasigla.append(sigla)
         # Pegando preços intervalo de 15 minutos
 
         btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1WEEK)
