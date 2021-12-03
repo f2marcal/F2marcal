@@ -4052,11 +4052,9 @@ if col4 == "INDICADORES NÍVEL II ":
 
         btc_df = pd.DataFrame(btcbrl, columns=['date', 'open', 'high', 'low', 'close'])
         btc_df.set_index('date', inplace=True)
-        btc_df.index = float(pd.to_datetime(btc_df.index, unit='ms'))
+        btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
         (btc_df)
 
-        sinal_preco = sigla['Adj Close'].iloc[-1]
-        sinal_preco
 
         def computeRSI(data, time_window):
             diff = data.diff(1).dropna()  # diff in one field(one day)
