@@ -4087,7 +4087,7 @@ if col4 == "INDICADORES NÍVEL II ":
             return rsi
 
 
-        acao['RSI'] = computeRSI(df, 14)
+        sigla['RSI'] = computeRSI(df, 14)
 
 
         def stochastic(data, k_window, d_window, window):
@@ -4107,17 +4107,17 @@ if col4 == "INDICADORES NÍVEL II ":
             return K, D
 
 
-        acao['K'], acao['D'] = stochastic(acao['RSI'], 3, 3, 14)
+        sigla['K'], sigla['D'] = stochastic(sigla['RSI'], 3, 3, 14)
 
-        if acao['K'].iloc[-1] > 90:
-            if acao['K'].iloc[-1] < acao['D'].iloc[-1]:
+        if sigla['K'].iloc[-1] > 90:
+            if sigla['K'].iloc[-1] < acao['D'].iloc[-1]:
                 indicador = 10
                 msg = f'{listasigla[-1]} VENDA/H-N2 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
             else:
                 indicador = 0
-        elif acao['K'].iloc[-1] < 20:
-            if acao['K'].iloc[-1] > acao['D'].iloc[-1]:
+        elif sigla['K'].iloc[-1] < 20:
+            if sigla['K'].iloc[-1] > sigla['D'].iloc[-1]:
                 indicador = 4
                 msg = f'{listasigla[-1]} COMPRA/H-N2 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
