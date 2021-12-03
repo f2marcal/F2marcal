@@ -4059,7 +4059,7 @@ if col4 == "INDICADORES NÍVEL II ":
         btc_df['close'] = pd.to_numeric(btc_df['close'])
 
         # DATAFRAME
-        df = btc_df['close'].iloc[-1]
+        df = btc_df['close']
 
 
         def computeRSI(data, time_window):
