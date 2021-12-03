@@ -3639,7 +3639,7 @@ if col3 == "INDICADORES NÍVEL I":
             "CRIPTOMOEDAS - INDICADORES: NÍVEL I"
         """
     )
-    acoes = ['SHIB-USD','DOGE-USD','IOTX-USD','XRP-USD','BTT1-USD','BTC-USD','SOL1-USD','DOT1-USD','AVAX-USD','ETH-USD']
+    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC','BTT1-USD','STX-BTC','SOL1-BTC','DOT1-BTC','AVAX-BTC','ETH-BTC','YGG-BTC','GXS-BTC','ROSE-BTC','ATOM-BTC','MANA-BTC']
 
     listasigla = []
     listaindicador = []
@@ -3740,6 +3740,22 @@ if col3 == "INDICADORES NÍVEL I":
         ax.bar(listasigla[5:11], listaindicador[5:11])
         st.pyplot(plt)
 
+    with fig3:
+        st.markdown("Ações Bloco 3")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[11:17], listaindicador[11:17])
+        st.pyplot(plt)
+
+    with fig4:
+        st.markdown("Ações Bloco 4")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[17:23], listaindicador[17:23])
+        st.pyplot(plt)
+
     st.markdown("<hr/>", unsafe_allow_html=True)
 
 if col3 == "INDICADORES NÍVEL II":
@@ -3748,7 +3764,7 @@ if col3 == "INDICADORES NÍVEL II":
             "CRIPTOMOEDAS - INDICADORES: NÍVEL II"
         """
     )
-    acoes = ['SHIB-USD','DOGE-USD','IOTX-USD','XRP-USD','BTT1-USD','BTC-USD','SOL1-USD','DOT1-USD','AVAX-USD','ETH-USD']
+    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC','BTT1-USD','STX-BTC','SOL1-BTC','DOT1-BTC','AVAX-BTC','ETH-BTC','YGG-BTC','GXS-BTC','ROSE-BTC','ATOM-BTC','MANA-BTC']
 
     listasigla = []
     listaindicador = []
@@ -3849,6 +3865,22 @@ if col3 == "INDICADORES NÍVEL II":
         ax.bar(listasigla[5:11], listaindicador[5:11])
         st.pyplot(plt)
 
+    with fig3:
+        st.markdown("Ações Bloco 3")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[11:17], listaindicador[11:17])
+        st.pyplot(plt)
+
+    with fig4:
+        st.markdown("Ações Bloco 4")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[17:23], listaindicador[17:23])
+        st.pyplot(plt)
+
     st.markdown("<hr/>", unsafe_allow_html=True)
 
 
@@ -3859,7 +3891,7 @@ if col4 == "INDICADORES NÍVEL I ":
         """
     )
 
-    acoes = ['SHIB-USD','DOGE-USD','IOTX-USD','XRP-USD','BTT1-USD','BTC-USD','SOL1-USD','DOT1-USD','AVAX-USD','ETH-USD']
+    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC','BTT1-USD','STX-BTC','SOL1-BTC','DOT1-BTC','AVAX-BTC','ETH-BTC','YGG-BTC','GXS-BTC','ROSE-BTC','ATOM-BTC','MANA-BTC']
 
     listasigla = []
     listaindicador = []
@@ -3945,7 +3977,7 @@ if col4 == "INDICADORES NÍVEL I ":
     fig1, fig2 = st.columns(2)
 
     with fig1:
-        st.markdown("Indicadores - CARTEIRA Bloco 1")
+        st.markdown("Ações Bloco 1")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
@@ -3953,11 +3985,27 @@ if col4 == "INDICADORES NÍVEL I ":
         st.pyplot(plt)
 
     with fig2:
-        st.markdown("Indicadores - CARTEIRA Bloco 2")
+        st.markdown("Ações Bloco 2")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
         ax.bar(listasigla[5:11], listaindicador[5:11])
+        st.pyplot(plt)
+
+    with fig3:
+        st.markdown("Ações Bloco 3")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[11:17], listaindicador[11:17])
+        st.pyplot(plt)
+
+    with fig4:
+        st.markdown("Ações Bloco 4")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[17:23], listaindicador[17:23])
         st.pyplot(plt)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
@@ -3969,7 +4017,7 @@ if col4 == "INDICADORES NÍVEL II ":
         """
     )
 
-    acoes = ['SHIB-USD','DOGE-USD','IOTX-USD','XRP-USD','BTT1-USD','BTC-USD','SOL1-USD','DOT1-USD','AVAX-USD','ETH-USD']
+    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC','BTT1-USD','STX-BTC','SOL1-BTC','DOT1-BTC','AVAX-BTC','ETH-BTC','YGG-BTC','GXS-BTC','ROSE-BTC','ATOM-BTC','MANA-BTC']
 
     listasigla = []
     listaindicador = []
@@ -4052,10 +4100,8 @@ if col4 == "INDICADORES NÍVEL II ":
 
     # Figuras
 
-    fig1, fig2 = st.columns(2)
-
     with fig1:
-        st.markdown("Indicadores - CARTEIRA Bloco 1")
+        st.markdown("Ações Bloco 1")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
@@ -4063,11 +4109,27 @@ if col4 == "INDICADORES NÍVEL II ":
         st.pyplot(plt)
 
     with fig2:
-        st.markdown("Indicadores - CARTEIRA Bloco 2")
+        st.markdown("Ações Bloco 2")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
         ax.bar(listasigla[5:11], listaindicador[5:11])
+        st.pyplot(plt)
+
+    with fig3:
+        st.markdown("Ações Bloco 3")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[11:17], listaindicador[11:17])
+        st.pyplot(plt)
+
+    with fig4:
+        st.markdown("Ações Bloco 4")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[17:23], listaindicador[17:23])
         st.pyplot(plt)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
