@@ -4045,6 +4045,9 @@ if col4 == "INDICADORES NÍVEL II ":
 
         btcbrl
 
+        avg_price = client.get_avg_price(symbol='BNBBTC')
+        avg_price
+
         # transformando o json
         with open('btc_df.json', 'w') as e:
             json.dump(btcbrl, e)
