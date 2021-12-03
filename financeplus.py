@@ -4055,36 +4055,6 @@ if col4 == "INDICADORES NÍVEL II ":
         btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
         (btc_df)
 
-        asa = (btc_df.iloc[-1])-(btc_df.iloc[-2])
-        asa
-
-
-        def computeRSI(data, time_window):
-            diff = data.diff(1).dropna()  # diff in one field(one day)
-
-            # this preservers dimensions off diff values
-            up_chg = 0 * diff
-            down_chg = 0 * diff
-
-            # up change is equal to the positive difference, otherwise equal to zero
-            up_chg[diff > 0] = diff[diff > 0]
-
-            # down change is equal to negative deifference, otherwise equal to zero
-            down_chg[diff < 0] = diff[diff < 0]
-
-            # check pandas documentation for ewm
-            # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.ewm.html
-            # values are related to exponential decay
-            # we set com=time_window-1 so we get decay alpha=1/time_window
-            up_chg_avg = up_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-            down_chg_avg = down_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-
-            rs = abs(up_chg_avg / down_chg_avg)
-            rsi = 100 - 100 / (1 + rs)
-            return rsi
-
-
-        sigla['RSI'] = computeRSI(btc_df['close'], 14)
 
 
         def stochastic(data, k_window, d_window, window):
@@ -4104,7 +4074,7 @@ if col4 == "INDICADORES NÍVEL II ":
             return K, D
 
 
-        sigla['K'], sigla['D'] = stochastic(sigla['RSI'], 3, 3, 14)
+        sigla['K'], sigla['D'] = stochastic(btc_df['close'], 3, 3, 14)
 
         if sigla['K'].iloc[-1] > 90:
             if sigla['K'].iloc[-1] < acao['D'].iloc[-1]:
