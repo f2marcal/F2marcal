@@ -13,6 +13,11 @@ display(HTML("<style>.container { width:100% !important; }</style>"))
 import telegram
 from binance.client import Client
 
+api_key = 'VMcjzDusoLH0C3e3rqPqyQyyOlUGk7IxJR0Ncy3ysh00hNzBtCZSz3KcFYxcIH2M'
+api_secret = 'Qsy4QGQhS5JyXy5yF9y2bZKuNhrQIiXdRleMuSVBamXl8VbEmm8QJAjV3Wju9oLN'
+
+client = Client(api_key=api_key, api_secret=api_secret)
+precos = client.get_all_tickers()
 
 #TELEGRAM
 my_token = '1983878362:AAF_rCuuehuKeIb9g2aK_-lFlwQ4oogWg1g'
