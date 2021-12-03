@@ -4054,13 +4054,8 @@ if col4 == "INDICADORES NÍVEL II ":
         btc_df.set_index('date', inplace=True)
         btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
         (btc_df)
-        btc_df['close'].iloc[-1]
+        
 
-        btc_df['close'] = pd.to_numeric(btc_df['close'])
-
-        # DATAFRAME
-        df = btc_df['close']
-        df.apply(lambda x: float(x))
 
 
         def computeRSI(data, time_window):
@@ -4088,7 +4083,7 @@ if col4 == "INDICADORES NÍVEL II ":
             return rsi
 
 
-        sigla['RSI'] = computeRSI(df), 14)
+        sigla['RSI'] = computeRSI((btc_df['close']), 14)
 
 
         def stochastic(data, k_window, d_window, window):
