@@ -4057,9 +4057,6 @@ if col4 == "INDICADORES NÍVEL II ":
         btc_df['close'].iloc[-1]
 
 
-        # DATAFRAME
-        df = btc_df['close']
-
 
         def computeRSI(data, time_window):
             diff = data.diff(1).dropna()  # diff in one field(one day)
@@ -4086,7 +4083,7 @@ if col4 == "INDICADORES NÍVEL II ":
             return rsi
 
 
-        sigla['RSI'] = computeRSI(df, 14)
+        sigla['RSI'] = computeRSI(btc_df['close'], 14)
 
 
         def stochastic(data, k_window, d_window, window):
