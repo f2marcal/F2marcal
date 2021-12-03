@@ -4045,8 +4045,8 @@ if col4 == "INDICADORES NÍVEL II ":
 
         btcbrl
 
-        avg_price = client.get_avg_price(symbol='BNBBTC')
-        avg_price
+        klines = client.get_historical_klines("ETHBTC", Client.KLINE_INTERVAL_30MINUTE, "1 jan, 2021", "1 Jan, 2022")
+        klines
 
         # transformando o json
         with open('btc_df.json', 'w') as e:
