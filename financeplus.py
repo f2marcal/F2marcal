@@ -4054,14 +4054,9 @@ if col4 == "INDICADORES NÍVEL II ":
         btc_df = pd.DataFrame(btcbrl, columns=['date', 'open', 'high', 'low', 'close'])
         btc_df.set_index('date', inplace=True)
         btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
-        (btc_df)
-        print(btc_df['close'])
+
 
         btc_df['close'] = pd.to_numeric(btc_df['close'])
-
-        # DATAFRAME
-        df = btc_df
-
 
 
         # calculating Stoch RSI
@@ -4091,23 +4086,6 @@ if col4 == "INDICADORES NÍVEL II ":
 
         df['Stoc'], df['K'], df['D'] = StochRSI_EMA(df['close'])
         print(df)
-
-        # GRAFICO 1
-
-        plt.figure(figsize=(16, 5))
-        plt.plot(df['close'])
-        plt.grid()
-        plt.title('FECHAMENTO', fontsize=20)
-        plt.legend(['Valor'])
-
-        # GRAFICO 2
-
-        plt.figure(figsize=(16, 5))
-        plt.plot(df['K'])
-        plt.plot(df['D'])
-        plt.grid()
-        plt.title('ESTOCÁSTICO - GRÁFICO', fontsize=20)
-        plt.legend(['K', 'D'])
 
         #SINAL PREÇO
         sinal_preco = df.iloc[-1]
