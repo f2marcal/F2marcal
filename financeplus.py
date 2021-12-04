@@ -4135,6 +4135,23 @@ if col4 == "INDICADORES NÍVEL II ":
         df['Stoc'], df['K'], df['D'] = StochRSI_EMA(df['close'])
         print(df)
 
+        # GRAFICO 1
+
+        plt.figure(figsize=(16, 5))
+        plt.plot(df['close'])
+        plt.grid()
+        plt.title('FECHAMENTO', fontsize=20)
+        plt.legend(['Valor'])
+
+        # GRAFICO 2
+
+        plt.figure(figsize=(16, 5))
+        plt.plot(df['K'])
+        plt.plot(df['D'])
+        plt.grid()
+        plt.title('ESTOCÁSTICO - GRÁFICO', fontsize=20)
+        plt.legend(['K', 'D'])
+
         if df['K'].iloc[-1] > 90:
             if df['K'].iloc[-1] < df['D'].iloc[-1]:
                 indicador = 10
