@@ -4040,8 +4040,9 @@ if col4 == "INDICADORES NÍVEL II ":
 
         listasigla.append(sigla)
         # Pegando preços intervalo de 15 minutos
-
         btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1WEEK)
+        sinal_preco = acao['Adj Close'].iloc[-1]
+
 
         # transformando o json
         with open('btc_df.json', 'w') as e:
