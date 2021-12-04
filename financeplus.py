@@ -4029,7 +4029,7 @@ if col4 == "INDICADORES NÍVEL II ":
         """
     )
 
-    siglas = ['ETHBTC','YGGBTC','GXSBTC','ROSEBTC','ATOMBTC','MANABTC']
+    siglas = ['ETHBTC']
 
 
 
