@@ -3833,7 +3833,7 @@ if col3 == "INDICADORES NÍVEL II":
             return stochrsi, stochrsi_K, stochrsi_D
 
 
-        df['Stoc'], df['K'], df['D'] = StochRSI_EMA(df['close'])
+        df['Stoc'], df['K'], df['D'] = StochRSI(df['close'])
         print(df)
 
         # SINAL PREÇO
@@ -3964,7 +3964,7 @@ if col4 == "INDICADORES NÍVEL I ":
             return stochrsi, stochrsi_K, stochrsi_D
 
 
-        df['Stoc'], df['K'], df['D'] = StochRSI_EMA(df['close'])
+        df['Stoc'], df['K'], df['D'] = StochRSI(df['close'])
         print(df)
 
         # SINAL PREÇO
@@ -4096,7 +4096,7 @@ if col4 == "INDICADORES NÍVEL II ":
             return stochrsi, stochrsi_K, stochrsi_D
 
 
-        df['Stoc'], df['K'], df['D'] = StochRSI_EMA(df['close'])
+        df['Stoc'], df['K'], df['D'] = StochRSI(df['close'])
         print(df)
 
         df
