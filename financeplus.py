@@ -3741,7 +3741,7 @@ if col3 == "INDICADORES NÍVEL I":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[0:6], listaindicador[0:5])
+        ax.bar(listasigla[0:5], listaindicador[0:5])
         st.pyplot(plt)
 
     with fig2:
@@ -3749,7 +3749,7 @@ if col3 == "INDICADORES NÍVEL I":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[6:12], listaindicador[5:11])
+        ax.bar(listasigla[5:11], listaindicador[5:11])
         st.pyplot(plt)
 
     with fig3:
@@ -3757,7 +3757,7 @@ if col3 == "INDICADORES NÍVEL I":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[12:18], listaindicador[11:17])
+        ax.bar(listasigla[11:17], listaindicador[11:17])
         st.pyplot(plt)
 
     with fig4:
@@ -3765,7 +3765,7 @@ if col3 == "INDICADORES NÍVEL I":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[18:24], listaindicador[17:23])
+        ax.bar(listasigla[17:23], listaindicador[17:23])
         st.pyplot(plt)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
@@ -3869,7 +3869,7 @@ if col3 == "INDICADORES NÍVEL II":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[0:6], listaindicador[0:5])
+        ax.bar(listasigla[0:5], listaindicador[0:5])
         st.pyplot(plt)
 
     with fig2:
@@ -3877,7 +3877,7 @@ if col3 == "INDICADORES NÍVEL II":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[6:12], listaindicador[5:11])
+        ax.bar(listasigla[5:11], listaindicador[5:11])
         st.pyplot(plt)
 
     with fig3:
@@ -3885,7 +3885,7 @@ if col3 == "INDICADORES NÍVEL II":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[12:18], listaindicador[11:17])
+        ax.bar(listasigla[11:17], listaindicador[11:17])
         st.pyplot(plt)
 
     with fig4:
@@ -3893,7 +3893,7 @@ if col3 == "INDICADORES NÍVEL II":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[18:24], listaindicador[17:23])
+        ax.bar(listasigla[17:23], listaindicador[17:23])
         st.pyplot(plt)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
@@ -3999,7 +3999,7 @@ if col4 == "INDICADORES NÍVEL I ":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[0:6], listaindicador[0:5])
+        ax.bar(listasigla[0:5], listaindicador[0:5])
         st.pyplot(plt)
 
     with fig2:
@@ -4007,7 +4007,7 @@ if col4 == "INDICADORES NÍVEL I ":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[6:12], listaindicador[5:11])
+        ax.bar(listasigla[5:11], listaindicador[5:11])
         st.pyplot(plt)
 
     with fig3:
@@ -4015,7 +4015,7 @@ if col4 == "INDICADORES NÍVEL I ":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[12:18], listaindicador[11:17])
+        ax.bar(listasigla[11:17], listaindicador[11:17])
         st.pyplot(plt)
 
     with fig4:
@@ -4023,7 +4023,7 @@ if col4 == "INDICADORES NÍVEL I ":
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[18:24], listaindicador[17:23])
+        ax.bar(listasigla[17:23], listaindicador[17:23])
         st.pyplot(plt)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
