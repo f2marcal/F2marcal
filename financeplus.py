@@ -4041,7 +4041,7 @@ if col4 == "INDICADORES NÍVEL II ":
         listasigla.append(sigla)
         # Pegando preços intervalo de 15 minutos
         btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1WEEK)
-        sinal_preco = acao['Adj Close'].iloc[-1]
+
 
 
         # transformando o json
@@ -4108,6 +4108,9 @@ if col4 == "INDICADORES NÍVEL II ":
         plt.grid()
         plt.title('ESTOCÁSTICO - GRÁFICO', fontsize=20)
         plt.legend(['K', 'D'])
+
+        #SINAL PREÇO
+        sinal_preco = df.iloc[-1]
 
         if df['K'].iloc[-1] > 90:
             if df['K'].iloc[-1] < df['D'].iloc[-1]:
