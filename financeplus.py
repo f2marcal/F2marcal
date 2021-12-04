@@ -4053,8 +4053,8 @@ if col4 == "INDICADORES NÍVEL II ":
         btc_df = pd.DataFrame(btcbrl, columns=['date', 'open', 'high', 'low', 'close'])
         btc_df.set_index('date', inplace=True)
         btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
-        df = btc_df('close')
-        df
+        (btc_df)
+        print(btc_df['close'])
 
 
 msg = f'#####################################' \
