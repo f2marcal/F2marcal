@@ -3678,9 +3678,9 @@ if col3 == "INDICADORES NÍVEL I":
         df = btc_df
 
 
-        # calculating Stoch RSI
-        #  -- Same as the above function but uses EMA, not SMA
-        def StochRSI_EMA(series, period=14, smoothK=11, smoothD=6):
+        # calculating Stoch RSI (gives the same values as TradingView)
+        # https://www.tradingview.com/wiki/Stochastic_RSI_(STOCH_RSI)
+        def StochRSI(series, period=14, smoothK=3, smoothD=3):
             # Calculate RSI
             delta = series.diff().dropna()
             ups = delta * 0
@@ -3696,14 +3696,15 @@ if col3 == "INDICADORES NÍVEL I":
             rsi = 100 - 100 / (1 + rs)
 
             # Calculate StochRSI
-            stochrsi = (rsi - rsi.rolling(period).min()) / (rsi.rolling(period).max() - rsi.rolling(period).min())
-            stochrsi_K = stochrsi.ewm(span=smoothK).mean()
-            stochrsi_D = stochrsi_K.ewm(span=smoothD).mean()
+            stochrsi = (rsi - rsi.rolling(period).min()) / (
+                    rsi.rolling(period).max() - rsi.rolling(period).min())
+            stochrsi_K = stochrsi.rolling(smoothK).mean()
+            stochrsi_D = stochrsi_K.rolling(smoothD).mean()
 
             return stochrsi, stochrsi_K, stochrsi_D
 
 
-        df['Stoc'], df['K'], df['D'] = StochRSI_EMA(df['close'])
+        df['Stoc'], df['K'], df['D'] = StochRSI(df['close'])
         print(df)
         df
         # SINAL PREÇO
