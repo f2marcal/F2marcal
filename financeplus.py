@@ -4096,6 +4096,9 @@ if col4 == "INDICADORES NÍVEL II ":
         df['Stoc'], df['K'], df['D'] = StochRSI_EMA(df['close'])
         print(df)
 
+        df
+        
+
         #SINAL PREÇO
         sinal_preco = df.iloc[-1]
 
