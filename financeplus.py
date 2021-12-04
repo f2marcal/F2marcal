@@ -3648,74 +3648,76 @@ if col3 == "INDICADORES NÍVEL I":
             "CRIPTOMOEDAS - INDICADORES: NÍVEL I"
         """
     )
-    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC','BTT1-USD','STX-BTC','SOL1-BTC','DOT1-BTC','AVAX-BTC','ETH-BTC','YGG-BTC','GXS-BTC','ROSE-BTC','ATOM-BTC','MANA-BTC']
+    siglas = ['SHIBUSDT', 'DOGEBTC', 'IOTXBTC', 'XRPBTC', 'BTTUSDT', 'ETHBTC', 'GXSBTC', 'ROSEBTC', 'ATOMBTC',
+              'MANABTC', 'STXBTC', 'SOLBTC', 'DOTBTC', 'MITHBTC', 'ALICEBTC', 'COCOSBNB', 'REQBTC', 'ALICEBTC',
+              'BRDBTC', 'ADABTC', 'BCHUPUSDT', 'SUSHIBTC']
 
     listasigla = []
     listaindicador = []
 
-    for acao in acoes:
+    for sigla in siglas:
 
-        listasigla.append(acao)
-        acao = web.get_data_yahoo(acao, start, end)
-        sinal_preco = acao['Adj Close'].iloc[-1]
+        listasigla.append(sigla)
+        # Pegando preços intervalo de 1 dia
+        btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1DAY)
+
+        # transformando o json
+        with open('btc_df.json', 'w') as e:
+            json.dump(btcbrl, e)
+
+        for line in btcbrl:
+            del line[5:]
+
+        btc_df = pd.DataFrame(btcbrl, columns=['date', 'open', 'high', 'low', 'close'])
+        btc_df.set_index('date', inplace=True)
+        btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
+
+        btc_df['close'] = pd.to_numeric(btc_df['close'])
+
+        # DATAFRAME
+        df = btc_df
 
 
-        def computeRSI(data, time_window):
-            diff = data.diff(1).dropna()  # diff in one field(one day)
-
-            # this preservers dimensions off diff values
-            up_chg = 0 * diff
-            down_chg = 0 * diff
-
-            # up change is equal to the positive difference, otherwise equal to zero
-            up_chg[diff > 0] = diff[diff > 0]
-
-            # down change is equal to negative deifference, otherwise equal to zero
-            down_chg[diff < 0] = diff[diff < 0]
-
-            # check pandas documentation for ewm
-            # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.ewm.html
-            # values are related to exponential decay
-            # we set com=time_window-1 so we get decay alpha=1/time_window
-            up_chg_avg = up_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-            down_chg_avg = down_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-
-            rs = abs(up_chg_avg / down_chg_avg)
+        # calculating Stoch RSI
+        #  -- Same as the above function but uses EMA, not SMA
+        def StochRSI_EMA(series, period=14, smoothK=11, smoothD=6):
+            # Calculate RSI
+            delta = series.diff().dropna()
+            ups = delta * 0
+            downs = ups.copy()
+            ups[delta > 0] = delta[delta > 0]
+            downs[delta < 0] = -delta[delta < 0]
+            ups[ups.index[period - 1]] = np.mean(ups[:period])  # first value is sum of avg gains
+            ups = ups.drop(ups.index[:(period - 1)])
+            downs[downs.index[period - 1]] = np.mean(downs[:period])  # first value is sum of avg losses
+            downs = downs.drop(downs.index[:(period - 1)])
+            rs = ups.ewm(com=period - 1, min_periods=0, adjust=False, ignore_na=False).mean() / \
+                 downs.ewm(com=period - 1, min_periods=0, adjust=False, ignore_na=False).mean()
             rsi = 100 - 100 / (1 + rs)
-            return rsi
+
+            # Calculate StochRSI
+            stochrsi = (rsi - rsi.rolling(period).min()) / (rsi.rolling(period).max() - rsi.rolling(period).min())
+            stochrsi_K = stochrsi.ewm(span=smoothK).mean()
+            stochrsi_D = stochrsi_K.ewm(span=smoothD).mean()
+
+            return stochrsi, stochrsi_K, stochrsi_D
 
 
-        acao['RSI'] = computeRSI(acao['Adj Close'], 14)
+        df['Stoc'], df['K'], df['D'] = StochRSI_EMA(df['close'])
+        print(df)
 
+        # SINAL PREÇO
+        sinal_preco = df.iloc[-1]
 
-        def stochastic(data, k_window, d_window, window):
-
-            # input to function is one column from df
-            # containing closing price or whatever value we want to extract K and D from
-
-            min_val = data.rolling(window=window, center=False).min()
-            max_val = data.rolling(window=window, center=False).max()
-
-            stoch = ((data - min_val) / (max_val - min_val)) * 100
-
-            K = stoch.rolling(window=k_window, center=False).mean()
-            # K = stoch
-
-            D = K.rolling(window=d_window, center=False).mean()
-            return K, D
-
-
-        acao['K'], acao['D'] = stochastic(acao['RSI'], 3, 3, 14)
-
-        if acao['K'].iloc[-1] > 85:
-            if acao['K'].iloc[-1] < acao['D'].iloc[-1]:
+        if df['K'].iloc[-1] > 85:
+            if df['K'].iloc[-1] < df['D'].iloc[-1]:
                 indicador = 10
                 msg = f'{listasigla[-1]} VENDA/D-N1 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
             else:
                 indicador = 0
-        elif acao['K'].iloc[-1] < 25:
-            if acao['K'].iloc[-1] > acao['D'].iloc[-1]:
+        elif df['K'].iloc[-1] < 25:
+            if df['K'].iloc[-1] > df['D'].iloc[-1]:
                 indicador = 4
                 msg = f'{listasigla[-1]} COMPRA/D-N1 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
@@ -3735,35 +3737,35 @@ if col3 == "INDICADORES NÍVEL I":
     fig3, fig4 = st.columns(2)
 
     with fig1:
-        st.markdown("Ações Bloco 1")
+        st.markdown("Cripto Bloco 1")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[0:5], listaindicador[0:5])
+        ax.bar(listasigla[0:6], listaindicador[0:5])
         st.pyplot(plt)
 
     with fig2:
-        st.markdown("Ações Bloco 2")
+        st.markdown("Cripto Bloco 2")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[5:11], listaindicador[5:11])
+        ax.bar(listasigla[6:12], listaindicador[5:11])
         st.pyplot(plt)
 
     with fig3:
-        st.markdown("Ações Bloco 3")
+        st.markdown("Cripto Bloco 3")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[11:17], listaindicador[11:17])
+        ax.bar(listasigla[12:18], listaindicador[11:17])
         st.pyplot(plt)
 
     with fig4:
-        st.markdown("Ações Bloco 4")
+        st.markdown("Cripto Bloco 4")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[17:23], listaindicador[17:23])
+        ax.bar(listasigla[18:24], listaindicador[17:23])
         st.pyplot(plt)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
@@ -3774,74 +3776,76 @@ if col3 == "INDICADORES NÍVEL II":
             "CRIPTOMOEDAS - INDICADORES: NÍVEL II"
         """
     )
-    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC','BTT1-USD','STX-BTC','SOL1-BTC','DOT1-BTC','AVAX-BTC','ETH-BTC','YGG-BTC','GXS-BTC','ROSE-BTC','ATOM-BTC','MANA-BTC']
+    siglas = ['SHIBUSDT', 'DOGEBTC', 'IOTXBTC', 'XRPBTC', 'BTTUSDT', 'ETHBTC', 'GXSBTC', 'ROSEBTC', 'ATOMBTC',
+              'MANABTC', 'STXBTC', 'SOLBTC', 'DOTBTC', 'MITHBTC', 'ALICEBTC', 'COCOSBNB', 'REQBTC', 'ALICEBTC',
+              'BRDBTC', 'ADABTC', 'BCHUPUSDT', 'SUSHIBTC']
 
     listasigla = []
     listaindicador = []
 
-    for acao in acoes:
+    for sigla in siglas:
 
-        listasigla.append(acao)
-        acao = web.get_data_yahoo(acao, start, end)  # Ambev
-        sinal_preco = acao['Adj Close'].iloc[-1]
+        listasigla.append(sigla)
+        # Pegando preços intervalo de 1 dia
+        btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1DAY)
+
+        # transformando o json
+        with open('btc_df.json', 'w') as e:
+            json.dump(btcbrl, e)
+
+        for line in btcbrl:
+            del line[5:]
+
+        btc_df = pd.DataFrame(btcbrl, columns=['date', 'open', 'high', 'low', 'close'])
+        btc_df.set_index('date', inplace=True)
+        btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
+
+        btc_df['close'] = pd.to_numeric(btc_df['close'])
+
+        # DATAFRAME
+        df = btc_df
 
 
-        def computeRSI(data, time_window):
-            diff = data.diff(1).dropna()  # diff in one field(one day)
-
-            # this preservers dimensions off diff values
-            up_chg = 0 * diff
-            down_chg = 0 * diff
-
-            # up change is equal to the positive difference, otherwise equal to zero
-            up_chg[diff > 0] = diff[diff > 0]
-
-            # down change is equal to negative deifference, otherwise equal to zero
-            down_chg[diff < 0] = diff[diff < 0]
-
-            # check pandas documentation for ewm
-            # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.ewm.html
-            # values are related to exponential decay
-            # we set com=time_window-1 so we get decay alpha=1/time_window
-            up_chg_avg = up_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-            down_chg_avg = down_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-
-            rs = abs(up_chg_avg / down_chg_avg)
+        # calculating Stoch RSI
+        #  -- Same as the above function but uses EMA, not SMA
+        def StochRSI_EMA(series, period=14, smoothK=11, smoothD=6):
+            # Calculate RSI
+            delta = series.diff().dropna()
+            ups = delta * 0
+            downs = ups.copy()
+            ups[delta > 0] = delta[delta > 0]
+            downs[delta < 0] = -delta[delta < 0]
+            ups[ups.index[period - 1]] = np.mean(ups[:period])  # first value is sum of avg gains
+            ups = ups.drop(ups.index[:(period - 1)])
+            downs[downs.index[period - 1]] = np.mean(downs[:period])  # first value is sum of avg losses
+            downs = downs.drop(downs.index[:(period - 1)])
+            rs = ups.ewm(com=period - 1, min_periods=0, adjust=False, ignore_na=False).mean() / \
+                 downs.ewm(com=period - 1, min_periods=0, adjust=False, ignore_na=False).mean()
             rsi = 100 - 100 / (1 + rs)
-            return rsi
+
+            # Calculate StochRSI
+            stochrsi = (rsi - rsi.rolling(period).min()) / (rsi.rolling(period).max() - rsi.rolling(period).min())
+            stochrsi_K = stochrsi.ewm(span=smoothK).mean()
+            stochrsi_D = stochrsi_K.ewm(span=smoothD).mean()
+
+            return stochrsi, stochrsi_K, stochrsi_D
 
 
-        acao['RSI'] = computeRSI(acao['Adj Close'], 14)
+        df['Stoc'], df['K'], df['D'] = StochRSI_EMA(df['close'])
+        print(df)
 
+        # SINAL PREÇO
+        sinal_preco = df.iloc[-1]
 
-        def stochastic(data, k_window, d_window, window):
-
-            # input to function is one column from df
-            # containing closing price or whatever value we want to extract K and D from
-
-            min_val = data.rolling(window=window, center=False).min()
-            max_val = data.rolling(window=window, center=False).max()
-
-            stoch = ((data - min_val) / (max_val - min_val)) * 100
-
-            K = stoch.rolling(window=k_window, center=False).mean()
-            # K = stoch
-
-            D = K.rolling(window=d_window, center=False).mean()
-            return K, D
-
-
-        acao['K'], acao['D'] = stochastic(acao['RSI'], 3, 3, 14)
-
-        if acao['K'].iloc[-1] > 90:
-            if acao['K'].iloc[-1] < acao['D'].iloc[-1]:
+        if df['K'].iloc[-1] > 90:
+            if df['K'].iloc[-1] < df['D'].iloc[-1]:
                 indicador = 10
                 msg = f'{listasigla[-1]} VENDA/D-N2 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
             else:
                 indicador = 0
-        elif acao['K'].iloc[-1] < 20:
-            if acao['K'].iloc[-1] > acao['D'].iloc[-1]:
+        elif df['K'].iloc[-1] < 20:
+            if df['K'].iloc[-1] > df['D'].iloc[-1]:
                 indicador = 4
                 msg = f'{listasigla[-1]} COMPRA/D-N2 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
@@ -3861,35 +3865,35 @@ if col3 == "INDICADORES NÍVEL II":
     fig3, fig4 = st.columns(2)
 
     with fig1:
-        st.markdown("Ações Bloco 1")
+        st.markdown("Cripto Bloco 1")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[0:5], listaindicador[0:5])
+        ax.bar(listasigla[0:6], listaindicador[0:5])
         st.pyplot(plt)
 
     with fig2:
-        st.markdown("Ações Bloco 2")
+        st.markdown("Cripto Bloco 2")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[5:11], listaindicador[5:11])
+        ax.bar(listasigla[6:12], listaindicador[5:11])
         st.pyplot(plt)
 
     with fig3:
-        st.markdown("Ações Bloco 3")
+        st.markdown("Cripto Bloco 3")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[11:17], listaindicador[11:17])
+        ax.bar(listasigla[12:18], listaindicador[11:17])
         st.pyplot(plt)
 
     with fig4:
-        st.markdown("Ações Bloco 4")
+        st.markdown("Cripto Bloco 4")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[17:23], listaindicador[17:23])
+        ax.bar(listasigla[18:24], listaindicador[17:23])
         st.pyplot(plt)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
@@ -3902,76 +3906,78 @@ if col4 == "INDICADORES NÍVEL I ":
         """
     )
 
-    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC','BTT1-USD','STX-BTC','SOL1-BTC','DOT1-BTC','AVAX-BTC','ETH-BTC','YGG-BTC','GXS-BTC','ROSE-BTC','ATOM-BTC','MANA-BTC']
+    siglas = ['SHIBUSDT', 'DOGEBTC', 'IOTXBTC', 'XRPBTC', 'BTTUSDT', 'ETHBTC', 'GXSBTC', 'ROSEBTC', 'ATOMBTC',
+              'MANABTC', 'STXBTC', 'SOLBTC', 'DOTBTC', 'MITHBTC', 'ALICEBTC', 'COCOSBNB', 'REQBTC', 'ALICEBTC',
+              'BRDBTC', 'ADABTC', 'BCHUPUSDT', 'SUSHIBTC']
 
     listasigla = []
     listaindicador = []
 
-    for acao in acoes:
+    for sigla in siglas:
 
-        listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1mo", interval="1wk")
-        sinal_preco = acao['Adj Close'].iloc[-1]
+        listasigla.append(sigla)
+        # Pegando preços intervalo de 1 semana
+        btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1WEEK)
+
+        # transformando o json
+        with open('btc_df.json', 'w') as e:
+            json.dump(btcbrl, e)
+
+        for line in btcbrl:
+            del line[5:]
+
+        btc_df = pd.DataFrame(btcbrl, columns=['date', 'open', 'high', 'low', 'close'])
+        btc_df.set_index('date', inplace=True)
+        btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
+
+        btc_df['close'] = pd.to_numeric(btc_df['close'])
+
+        # DATAFRAME
+        df = btc_df
 
 
-        def computeRSI(data, time_window):
-            diff = data.diff(1).dropna()  # diff in one field(one day)
-
-            # this preservers dimensions off diff values
-            up_chg = 0 * diff
-            down_chg = 0 * diff
-
-            # up change is equal to the positive difference, otherwise equal to zero
-            up_chg[diff > 0] = diff[diff > 0]
-
-            # down change is equal to negative deifference, otherwise equal to zero
-            down_chg[diff < 0] = diff[diff < 0]
-
-            # check pandas documentation for ewm
-            # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.ewm.html
-            # values are related to exponential decay
-            # we set com=time_window-1 so we get decay alpha=1/time_window
-            up_chg_avg = up_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-            down_chg_avg = down_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-
-            rs = abs(up_chg_avg / down_chg_avg)
+        # calculating Stoch RSI
+        #  -- Same as the above function but uses EMA, not SMA
+        def StochRSI_EMA(series, period=14, smoothK=11, smoothD=6):
+            # Calculate RSI
+            delta = series.diff().dropna()
+            ups = delta * 0
+            downs = ups.copy()
+            ups[delta > 0] = delta[delta > 0]
+            downs[delta < 0] = -delta[delta < 0]
+            ups[ups.index[period - 1]] = np.mean(ups[:period])  # first value is sum of avg gains
+            ups = ups.drop(ups.index[:(period - 1)])
+            downs[downs.index[period - 1]] = np.mean(downs[:period])  # first value is sum of avg losses
+            downs = downs.drop(downs.index[:(period - 1)])
+            rs = ups.ewm(com=period - 1, min_periods=0, adjust=False, ignore_na=False).mean() / \
+                 downs.ewm(com=period - 1, min_periods=0, adjust=False, ignore_na=False).mean()
             rsi = 100 - 100 / (1 + rs)
-            return rsi
+
+            # Calculate StochRSI
+            stochrsi = (rsi - rsi.rolling(period).min()) / (rsi.rolling(period).max() - rsi.rolling(period).min())
+            stochrsi_K = stochrsi.ewm(span=smoothK).mean()
+            stochrsi_D = stochrsi_K.ewm(span=smoothD).mean()
+
+            return stochrsi, stochrsi_K, stochrsi_D
 
 
-        acao['RSI'] = computeRSI(acao['Adj Close'], 14)
+        df['Stoc'], df['K'], df['D'] = StochRSI_EMA(df['close'])
+        print(df)
 
+        # SINAL PREÇO
+        sinal_preco = df.iloc[-1]
 
-        def stochastic(data, k_window, d_window, window):
-
-            # input to function is one column from df
-            # containing closing price or whatever value we want to extract K and D from
-
-            min_val = data.rolling(window=window, center=False).min()
-            max_val = data.rolling(window=window, center=False).max()
-
-            stoch = ((data - min_val) / (max_val - min_val)) * 100
-
-            K = stoch.rolling(window=k_window, center=False).mean()
-            # K = stoch
-
-            D = K.rolling(window=d_window, center=False).mean()
-            return K, D
-
-
-        acao['K'], acao['D'] = stochastic(acao['RSI'], 3, 3, 14)
-
-        if acao['K'].iloc[-1] > 85:
-            if acao['K'].iloc[-1] < acao['D'].iloc[-1]:
+        if df['K'].iloc[-1] > 85:
+            if df['K'].iloc[-1] < df['D'].iloc[-1]:
                 indicador = 10
-                msg = f'{listasigla[-1]} VENDA/H-N1 - Preço atual: {sinal_preco}'
+                msg = f'{listasigla[-1]} VENDA/S-N1 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
             else:
                 indicador = 0
-        elif acao['K'].iloc[-1] < 25:
-            if acao['K'].iloc[-1] > acao['D'].iloc[-1]:
+        elif df['K'].iloc[-1] < 25:
+            if df['K'].iloc[-1] > df['D'].iloc[-1]:
                 indicador = 4
-                msg = f'{listasigla[-1]} COMPRA/H-N1 - Preço atual: {sinal_preco}'
+                msg = f'{listasigla[-1]} COMPRA/S-N1 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
             else:
                 indicador = 0
@@ -3989,35 +3995,35 @@ if col4 == "INDICADORES NÍVEL I ":
     fig3, fig4 = st.columns(2)
 
     with fig1:
-        st.markdown("Ações Bloco 1")
+        st.markdown("Cripto Bloco 1")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[0:5], listaindicador[0:5])
+        ax.bar(listasigla[0:6], listaindicador[0:5])
         st.pyplot(plt)
 
     with fig2:
-        st.markdown("Ações Bloco 2")
+        st.markdown("Cripto Bloco 2")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[5:11], listaindicador[5:11])
+        ax.bar(listasigla[6:12], listaindicador[5:11])
         st.pyplot(plt)
 
     with fig3:
-        st.markdown("Ações Bloco 3")
+        st.markdown("Cripto Bloco 3")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[11:17], listaindicador[11:17])
+        ax.bar(listasigla[12:18], listaindicador[11:17])
         st.pyplot(plt)
 
     with fig4:
-        st.markdown("Ações Bloco 4")
+        st.markdown("Cripto Bloco 4")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[17:23], listaindicador[17:23])
+        ax.bar(listasigla[18:24], listaindicador[17:23])
         st.pyplot(plt)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
@@ -4039,7 +4045,7 @@ if col4 == "INDICADORES NÍVEL II ":
     for sigla in siglas:
 
         listasigla.append(sigla)
-        # Pegando preços intervalo de 15 minutos
+        # Pegando preços intervalo de 1 semana
         btcbrl = client.get_klines(symbol=sigla, interval=Client.KLINE_INTERVAL_1WEEK)
 
 
@@ -4121,35 +4127,35 @@ if col4 == "INDICADORES NÍVEL II ":
     fig3, fig4 = st.columns(2)
 
     with fig1:
-        st.markdown("Ações Bloco 1")
+        st.markdown("Cripto Bloco 1")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[0:5], listaindicador[0:5])
+        ax.bar(listasigla[0:6], listaindicador[0:5])
         st.pyplot(plt)
 
     with fig2:
-        st.markdown("Ações Bloco 2")
+        st.markdown("Cripto Bloco 2")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[5:11], listaindicador[5:11])
+        ax.bar(listasigla[6:12], listaindicador[5:11])
         st.pyplot(plt)
 
     with fig3:
-        st.markdown("Ações Bloco 3")
+        st.markdown("Cripto Bloco 3")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[11:17], listaindicador[11:17])
+        ax.bar(listasigla[12:18], listaindicador[11:17])
         st.pyplot(plt)
 
     with fig4:
-        st.markdown("Ações Bloco 4")
+        st.markdown("Cripto Bloco 4")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
         ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[17:23], listaindicador[17:23])
+        ax.bar(listasigla[18:24], listaindicador[17:23])
         st.pyplot(plt)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
