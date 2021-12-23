@@ -3715,6 +3715,7 @@ if col3 == "INDICADORES NÍVEL I":
                 indicador = 10
                 msg = f'{listasigla[-1]} VENDA/D-N1 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
+                print(df['K'].iloc[-1])
             else:
                 indicador = 0
         elif df['K'].iloc[-1] < 25:
@@ -3722,8 +3723,11 @@ if col3 == "INDICADORES NÍVEL I":
                 indicador = 4
                 msg = f'{listasigla[-1]} COMPRA/D-N1 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
+                print(df['K'].iloc[-1])
             else:
                 indicador = 0
+                print(df['K'].iloc[-1])
+
         else:
             indicador = 0
 
@@ -4098,9 +4102,6 @@ if col4 == "INDICADORES NÍVEL II ":
 
         df['Stoc'], df['K'], df['D'] = StochRSI(df['close'])
         print(df)
-
-        df
-
 
         #SINAL PREÇO
         sinal_preco = df.iloc[-1]
