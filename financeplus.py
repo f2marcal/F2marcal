@@ -3710,7 +3710,7 @@ if col3 == "INDICADORES NÍVEL I":
         # SINAL PREÇO
         sinal_preco = df.iloc[-1]
 
-        if df['K'].iloc[-1] > 85:
+        if df['K'].iloc[-1] > 0.85:
             if df['K'].iloc[-1] < df['D'].iloc[-1]:
                 indicador = 10
                 msg = f'{listasigla[-1]} VENDA/D-N1 - Preço atual: {sinal_preco}'
@@ -3718,7 +3718,7 @@ if col3 == "INDICADORES NÍVEL I":
                 print(df['K'].iloc[-1])
             else:
                 indicador = 0
-        elif df['K'].iloc[-1] < 25:
+        elif df['K'].iloc[-1] < 0.25:
             if df['K'].iloc[-1] > df['D'].iloc[-1]:
                 indicador = 4
                 msg = f'{listasigla[-1]} COMPRA/D-N1 - Preço atual: {sinal_preco}'
@@ -3843,14 +3843,14 @@ if col3 == "INDICADORES NÍVEL II":
         # SINAL PREÇO
         sinal_preco = df.iloc[-1]
 
-        if df['K'].iloc[-1] > 90:
+        if df['K'].iloc[-1] > 0.90:
             if df['K'].iloc[-1] < df['D'].iloc[-1]:
                 indicador = 10
                 msg = f'{listasigla[-1]} VENDA/D-N2 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
             else:
                 indicador = 0
-        elif df['K'].iloc[-1] < 20:
+        elif df['K'].iloc[-1] < 0.20:
             if df['K'].iloc[-1] > df['D'].iloc[-1]:
                 indicador = 4
                 msg = f'{listasigla[-1]} COMPRA/D-N2 - Preço atual: {sinal_preco}'
@@ -3973,14 +3973,14 @@ if col4 == "INDICADORES NÍVEL I ":
         # SINAL PREÇO
         sinal_preco = df.iloc[-1]
 
-        if df['K'].iloc[-1] > 85:
+        if df['K'].iloc[-1] > 0.85:
             if df['K'].iloc[-1] < df['D'].iloc[-1]:
                 indicador = 10
                 msg = f'{listasigla[-1]} VENDA/S-N1 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
             else:
                 indicador = 0
-        elif df['K'].iloc[-1] < 25:
+        elif df['K'].iloc[-1] < 0.25:
             if df['K'].iloc[-1] > df['D'].iloc[-1]:
                 indicador = 4
                 msg = f'{listasigla[-1]} COMPRA/S-N1 - Preço atual: {sinal_preco}'
@@ -4105,14 +4105,14 @@ if col4 == "INDICADORES NÍVEL II ":
         #SINAL PREÇO
         sinal_preco = df.iloc[-1]
 
-        if df['K'].iloc[-1] > 90:
+        if df['K'].iloc[-1] > 0.90:
             if df['K'].iloc[-1] < df['D'].iloc[-1]:
                 indicador = 10
                 msg = f'{listasigla[-1]} VENDA/S-N2 - Preço atual: {sinal_preco}'
                 envia_mensagem(msg, chat_id, my_token)
             else:
                 indicador = 0
-        elif df['K'].iloc[-1] < 20:
+        elif df['K'].iloc[-1] < 0.20:
             if df['K'].iloc[-1] > df['D'].iloc[-1]:
                 indicador = 4
                 msg = f'{listasigla[-1]} COMPRA/S-N2 - Preço atual: {sinal_preco}'
