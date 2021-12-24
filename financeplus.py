@@ -3969,7 +3969,6 @@ if col4 == "INDICADORES NÍVEL I ":
 
 
         df['Stoc'], df['K'], df['D'] = StochRSI(df['close'])
-        print(df)
 
         # SINAL PREÇO
         sinal_preco = df.iloc[-1]
