@@ -1,3 +1,4 @@
+pip==22.0.3
 python-binance==1.0.15
 binance==0.3
 binance-client==1.9.0
