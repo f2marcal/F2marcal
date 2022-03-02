@@ -1,6 +1,6 @@
 python-binance==1.0.15
 binance==0.3
-binance-client==1.0.0
+binance-client==1.9.0
 bta-lib==1.0.0
 matplotlib==3.4.3
 numpy==1.18.3
