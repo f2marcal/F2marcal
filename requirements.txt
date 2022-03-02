@@ -1,4 +1,4 @@
-python-binance==0.7.9
+python-binance==1.0.15
 binance==0.3
 binance-client==1.0.0
 bta-lib==1.0.0
