@@ -2679,10 +2679,7 @@ if col == "INDICADORES NÍVEL I":
              'SULA11.SA', 'BBSE3.SA', 'USIM5.SA', 'CSNA3.SA', 'ITUB4.SA', 'ENBR3.SA', 'CIEL3.SA', 'TEKA4.SA',
              'CVCB3.SA', 'OIBR3.SA', 'BRML3.SA', 'POSI3.SA', 'BRFS3.SA', 'JBSS3.SA', 'BBDC4.SA', 'COGN3.SA',
              'ITSA4.SA',
-             'LWSA3.SA', 'VIVR3.SA', 'CMIN3.SA', 'IRBR3.SA', 'WEGE3.SA', 'CXSE3.SA', 'MRFG3.SA', 'EMBR3.SA',
-             'RAIL3.SA',
-             'AZUL4.SA', 'LUPA3.SA', 'POMO4.SA', 'SUZB3.SA', 'TOTS3.SA', 'GOLL4.SA', 'RCSL4.SA', 'KLBN11.SA',
-             'B3SA3.SA']
+             'LWSA3.SA']
 
     listasigla = []
     listaindicador = []
