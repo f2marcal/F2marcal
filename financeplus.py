@@ -2673,9 +2673,7 @@ if col == "INDICADORES NÍVEL I":
             "INDICADORES NÍVEL I"
         """
     )
-    acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA', 'LAME4.SA',
-             'NGRD3.SA',
-             'DMMO3.SA']
+    acoes = ['ABEV3.SA']
 
     listasigla = []
     listaindicador = []
