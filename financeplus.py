@@ -2892,7 +2892,7 @@ if col == "INDICADORES: NÍVEL II":
             "INDICADORES NÍVEL II"
         """
     )
-    acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA', 'LAME4.SA',
+    acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA',
              'NGRD3.SA',
              'DMMO3.SA', 'PRIO3.SA', 'SAPR11.SA', 'TASA4.SA', 'VIIA3.SA', 'PETR4.SA', 'ELET3.SA', 'MGLU3.SA',
              'SULA11.SA', 'BBSE3.SA', 'USIM5.SA', 'CSNA3.SA', 'ITUB4.SA', 'ENBR3.SA', 'CIEL3.SA', 'TEKA4.SA',
@@ -3341,7 +3341,7 @@ if col2 == "INDICADORES NÍVEL I":
         """
     )
 
-    acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA', 'LAME4.SA',
+    acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA',
              'NGRD3.SA',
              'DMMO3.SA', 'PRIO3.SA', 'SAPR11.SA', 'TASA4.SA', 'VIIA3.SA', 'PETR4.SA', 'ELET3.SA', 'MGLU3.SA',
              'SULA11.SA', 'BBSE3.SA', 'USIM5.SA', 'CSNA3.SA', 'ITUB4.SA', 'ENBR3.SA', 'CIEL3.SA', 'TEKA4.SA',
@@ -3561,7 +3561,7 @@ if col2 == "INDICADORES NÍVEL II ":
         """
     )
 
-    acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA', 'LAME4.SA',
+    acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA',
              'NGRD3.SA',
              'DMMO3.SA', 'PRIO3.SA', 'SAPR11.SA', 'TASA4.SA', 'VIIA3.SA', 'PETR4.SA', 'ELET3.SA', 'MGLU3.SA',
              'SULA11.SA', 'BBSE3.SA', 'USIM5.SA', 'CSNA3.SA', 'ITUB4.SA', 'ENBR3.SA', 'CIEL3.SA', 'TEKA4.SA',
