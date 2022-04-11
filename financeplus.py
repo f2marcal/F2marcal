@@ -36,7 +36,7 @@ end = datetime.datetime(2022, 1, 30)
 ##### INSERINDO BARRA ####
 st.sidebar.title("OPERAÇÕES: SEMANA")
 
-col0 = st.sidebar.selectbox("SELECIONE UMA OPÇÃO:", ["", "ANÁLISE TÉCNICA", "INDICADORES NÍVEL I", "INDICADORES: NÍVEL II"])
+col5 = st.sidebar.selectbox("SELECIONE UMA OPÇÃO:", ["", "ANÁLISE TÉCNICA", "INDICADORES NÍVEL I", "INDICADORES: NÍVEL II"])
 
 ##### INSERINDO BARRA ####
 st.sidebar.title("OPERAÇÕES: DIA")
