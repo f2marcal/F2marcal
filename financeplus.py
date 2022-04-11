@@ -267,7 +267,7 @@ if col == "CARTEIRA - INDICADORES: NÍVEL II":
         st.markdown("Ações Bloco 1")
         fig, ax = plt.subplots()
         # Use automatic FuncFormatter creation
-        ax = fig.add_axes([0, 0, 1, 1])
+        ax = fig.add_axes([0, 0, 2, 2])
         ax.bar(listasigla[0:11], listaindicador[0:11])
         st.pyplot(plt)
 
