@@ -2688,7 +2688,8 @@ if col0 == "INDICADORES: NÍVEL II ":
              'LWSA3.SA', 'VIVR3.SA', 'CMIN3.SA', 'IRBR3.SA', 'WEGE3.SA', 'CXSE3.SA', 'MRFG3.SA', 'EMBR3.SA',
              'RAIL3.SA',
              'AZUL4.SA', 'LUPA3.SA', 'POMO4.SA', 'SUZB3.SA', 'TOTS3.SA', 'GOLL4.SA', 'RCSL4.SA', 'KLBN11.SA',
-             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA']
+             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA','PDGR3.SA','EMBR3.SA','PCAR3.SA','TRPL4.SA',
+             'AMAR3.SA','AESB3.SA','ALUP11.SA','EGIE3.SA','BRKM5.SA']
 
     listasigla = []
     listaindicador = []
@@ -2908,7 +2909,8 @@ if col == "INDICADORES NÍVEL I":
              'LWSA3.SA', 'VIVR3.SA', 'CMIN3.SA', 'IRBR3.SA', 'WEGE3.SA', 'CXSE3.SA', 'MRFG3.SA', 'EMBR3.SA',
              'RAIL3.SA',
              'AZUL4.SA', 'LUPA3.SA', 'POMO4.SA', 'SUZB3.SA', 'TOTS3.SA', 'GOLL4.SA', 'RCSL4.SA', 'KLBN11.SA',
-             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA']
+             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA','PDGR3.SA','EMBR3.SA','PCAR3.SA','TRPL4.SA',
+             'AMAR3.SA','AESB3.SA','ALUP11.SA','EGIE3.SA','BRKM5.SA']
 
     listasigla = []
     listaindicador = []
@@ -3127,7 +3129,8 @@ if col == "INDICADORES: NÍVEL II":
              'LWSA3.SA', 'VIVR3.SA', 'CMIN3.SA', 'IRBR3.SA', 'WEGE3.SA', 'CXSE3.SA', 'MRFG3.SA', 'EMBR3.SA',
              'RAIL3.SA',
              'AZUL4.SA', 'LUPA3.SA', 'POMO4.SA', 'SUZB3.SA', 'TOTS3.SA', 'GOLL4.SA', 'RCSL4.SA', 'KLBN11.SA',
-             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA']
+             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA','PDGR3.SA','EMBR3.SA','PCAR3.SA','TRPL4.SA',
+             'AMAR3.SA','AESB3.SA','ALUP11.SA','EGIE3.SA','BRKM5.SA']
 
     listasigla = []
     listaindicador = []
@@ -3355,7 +3358,8 @@ if col2 == "INDICADORES NÍVEL I":
              'LWSA3.SA', 'VIVR3.SA', 'CMIN3.SA', 'IRBR3.SA', 'WEGE3.SA', 'CXSE3.SA', 'MRFG3.SA', 'EMBR3.SA',
              'RAIL3.SA',
              'AZUL4.SA', 'LUPA3.SA', 'POMO4.SA', 'SUZB3.SA', 'TOTS3.SA', 'GOLL4.SA', 'RCSL4.SA', 'KLBN11.SA',
-             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA']
+             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA','PDGR3.SA','EMBR3.SA','PCAR3.SA','TRPL4.SA',
+             'AMAR3.SA','AESB3.SA','ALUP11.SA','EGIE3.SA','BRKM5.SA']
 
     listasigla = []
     listaindicador = []
@@ -3575,7 +3579,8 @@ if col2 == "INDICADORES NÍVEL II ":
              'LWSA3.SA', 'VIVR3.SA', 'CMIN3.SA', 'IRBR3.SA', 'WEGE3.SA', 'CXSE3.SA', 'MRFG3.SA', 'EMBR3.SA',
              'RAIL3.SA',
              'AZUL4.SA', 'LUPA3.SA', 'POMO4.SA', 'SUZB3.SA', 'TOTS3.SA', 'GOLL4.SA', 'RCSL4.SA', 'KLBN11.SA',
-             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA']
+             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA','PDGR3.SA','EMBR3.SA','PCAR3.SA','TRPL4.SA',
+             'AMAR3.SA','AESB3.SA','ALUP11.SA','EGIE3.SA','BRKM5.SA']
 
     listasigla = []
     listaindicador = []
