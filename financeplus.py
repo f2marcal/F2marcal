@@ -261,7 +261,7 @@ if col == "CARTEIRA - INDICADORES: NÍVEL II":
 
     # Figuras
 
-    fig1= st.columns()
+    fig1= st.columns(1)
 
     with fig1:
         st.markdown("Ações Bloco 1")
