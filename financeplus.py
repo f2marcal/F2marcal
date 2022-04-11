@@ -261,15 +261,13 @@ if col == "CARTEIRA - INDICADORES: NÍVEL II":
 
     # Figuras
 
-    fig1, fig2 = st.columns(2)
 
-    with fig1:
-        st.markdown("Ações Bloco 1")
-        fig, ax = plt.subplots()
-        # Use automatic FuncFormatter creation
-        ax = fig.add_axes([0, 0, 1, 2])
-        ax.bar(listasigla[0:11], listaindicador[0:11])
-        st.pyplot(plt)
+    st.markdown("Ações Bloco 1")
+    fig, ax = plt.subplots()
+    # Use automatic FuncFormatter creation
+    ax = fig.add_axes([0, 0, 1, 2])
+    ax.bar(listasigla[0:11], listaindicador[0:11])
+    st.pyplot(plt)
 
 
     st.markdown("<hr/>", unsafe_allow_html=True)
