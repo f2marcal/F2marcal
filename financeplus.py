@@ -33,10 +33,7 @@ a=pd.DataFrame()
 start = datetime.datetime(2021, 4, 1)
 end = datetime.datetime(2022, 1, 30)
 
-##### INSERINDO BARRA ####
-st.sidebar.title("OPERAÇÕES: SEMANA")
 
-col5 = st.sidebar.selectbox("SELECIONE UMA OPÇÃO:", ["", "ANÁLISE TÉCNICA", "INDICADORES NÍVEL I", "INDICADORES: NÍVEL II"])
 
 ##### INSERINDO BARRA ####
 st.sidebar.title("OPERAÇÕES: DIA")
@@ -44,7 +41,10 @@ st.sidebar.title("OPERAÇÕES: DIA")
 col = st.sidebar.selectbox("SELECIONE UMA OPÇÃO:", ["", "ANÁLISE TÉCNICA" , "INDICADORES NÍVEL I", "INDICADORES: NÍVEL II"])
 
 
+##### INSERINDO BARRA 2 ####
+st.sidebar.title("OPERAÇÕES: HORA")
 
+col2 = st.sidebar.selectbox("SELECIONE UMA OPÇÃO:", ["","ANÁLISE TÉCNICA" , "INDICADORES NÍVEL I", "INDICADORES NÍVEL II "])
 
 
 ##### INSERINDO BARRA 3 CRIPTOMOEDAS ####
