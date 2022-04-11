@@ -36,7 +36,7 @@ end = datetime.datetime(2022, 1, 30)
 ##### INSERINDO BARRA ####
 st.sidebar.title("OPERAÇÕES: SEMANA")
 
-col5 = st.sidebar.selectbox("SELECIONE UMA OPÇÃO: ", ["", "ANÁLISE TÉCNICA1", "INDICADORES NÍVEL I1", "INDICADORES: NÍVEL II1"])
+col0 = st.sidebar.selectbox("SELECIONE UMA OPÇÃO: ", ["", "ANÁLISE TÉCNICA ", "INDICADORES NÍVEL I ", "INDICADORES: NÍVEL II "])
 
 ##### INSERINDO BARRA ####
 st.sidebar.title("OPERAÇÕES: DIA")
@@ -2453,7 +2453,7 @@ if col == "ANÁLISE TÉCNICA":
     plt.axhline(100, linestyle='--', alpha=0.1)
     st.pyplot(plt)
 
-if col0 == "INDICADORES NÍVEL I":
+if col0 == "INDICADORES: NÍVEL I ":
     st.write(
         """
             "INDICADORES NÍVEL I"
@@ -2476,7 +2476,7 @@ if col0 == "INDICADORES NÍVEL I":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = web.get_data_yahoo(acao, start, end)
+        acao = yf.download(tickers=acao, period="1mo", interval="1wk")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
@@ -2672,7 +2672,7 @@ if col0 == "INDICADORES NÍVEL I":
 
     st.markdown("<hr/>", unsafe_allow_html=True)
 
-if col0 == "INDICADORES: NÍVEL II":
+if col0 == "INDICADORES: NÍVEL II ":
     st.write(
         """
             "INDICADORES NÍVEL II"
