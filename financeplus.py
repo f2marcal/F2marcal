@@ -2453,7 +2453,7 @@ if col == "ANÁLISE TÉCNICA":
     plt.axhline(100, linestyle='--', alpha=0.1)
     st.pyplot(plt)
 
-if col0 == "INDICADORES: NÍVEL I ":
+if col0 == "INDICADORES NÍVEL I ":
     st.write(
         """
             "INDICADORES NÍVEL I"
@@ -2915,7 +2915,7 @@ if col == "INDICADORES NÍVEL I":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = web.get_data_yahoo(acao, start, end)
+        acao = yf.download(tickers=acao, period="1mo", interval="1d")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
@@ -3134,7 +3134,7 @@ if col == "INDICADORES: NÍVEL II":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = web.get_data_yahoo(acao, start, end)  # Ambev
+        acao = yf.download(tickers=acao, period="1mo", interval="1d")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
