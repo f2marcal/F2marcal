@@ -2456,7 +2456,7 @@ if col == "ANÁLISE TÉCNICA":
 if col0 == "INDICADORES NÍVEL I ":
     st.write(
         """
-            "INDICADORES NÍVEL I"
+            "INDICADORES NÍVEL I - INDICADOR STOCRSI SEMANAL"
         """
     )
     acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA',
@@ -2675,7 +2675,7 @@ if col0 == "INDICADORES NÍVEL I ":
 if col0 == "INDICADORES: NÍVEL II ":
     st.write(
         """
-            "INDICADORES NÍVEL II"
+            "INDICADORES NÍVEL II - INDICADOR STOCRSI SEMANAL"
         """
     )
     acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA',
@@ -2895,7 +2895,7 @@ if col0 == "INDICADORES: NÍVEL II ":
 if col == "INDICADORES NÍVEL I":
     st.write(
         """
-            "INDICADORES NÍVEL I"
+            "INDICADORES NÍVEL I - INDICADOR STOCRSI DIA"
         """
     )
     acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA',
@@ -3114,7 +3114,7 @@ if col == "INDICADORES NÍVEL I":
 if col == "INDICADORES: NÍVEL II":
     st.write(
         """
-            "INDICADORES NÍVEL II"
+            "INDICADORES NÍVEL II - INDICADOR STOCRSI DIA"
         """
     )
     acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA',
@@ -3330,227 +3330,6 @@ if col == "INDICADORES: NÍVEL II":
 
     st.markdown("<hr/>", unsafe_allow_html=True)
 
-if col2 == "CARTEIRA - INDICADORES: NÍVEL I":
-    st.write(
-        """
-            "CARTEIRA - INDICADORES: NÍVEL I"
-        """
-    )
-
-    acoes = ['BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'NGRD3.SA', 'SAPR11.SA', 'VIIA3.SA', 'SUZB3.SA', 'CIEL3.SA',
-             'KLBN11.SA', 'MNPR3.SA', 'OIBR3.SA']
-
-    listasigla = []
-    listaindicador = []
-
-    for acao in acoes:
-
-        listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1y", interval="1h")
-        sinal_preco = acao['Adj Close'].iloc[-1]
-
-
-        def computeRSI(data, time_window):
-            diff = data.diff(1).dropna()  # diff in one field(one day)
-
-            # this preservers dimensions off diff values
-            up_chg = 0 * diff
-            down_chg = 0 * diff
-
-            # up change is equal to the positive difference, otherwise equal to zero
-            up_chg[diff > 0] = diff[diff > 0]
-
-            # down change is equal to negative deifference, otherwise equal to zero
-            down_chg[diff < 0] = diff[diff < 0]
-
-            # check pandas documentation for ewm
-            # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.ewm.html
-            # values are related to exponential decay
-            # we set com=time_window-1 so we get decay alpha=1/time_window
-            up_chg_avg = up_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-            down_chg_avg = down_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-
-            rs = abs(up_chg_avg / down_chg_avg)
-            rsi = 100 - 100 / (1 + rs)
-            return rsi
-
-
-        acao['RSI'] = computeRSI(acao['Adj Close'], 14)
-
-
-        def stochastic(data, k_window, d_window, window):
-
-            # input to function is one column from df
-            # containing closing price or whatever value we want to extract K and D from
-
-            min_val = data.rolling(window=window, center=False).min()
-            max_val = data.rolling(window=window, center=False).max()
-
-            stoch = ((data - min_val) / (max_val - min_val)) * 100
-
-            K = stoch.rolling(window=k_window, center=False).mean()
-            # K = stoch
-
-            D = K.rolling(window=d_window, center=False).mean()
-            return K, D
-
-
-        acao['K'], acao['D'] = stochastic(acao['RSI'], 3, 3, 14)
-
-        if acao['RSI'].iloc[-1] > 65 and acao['K'].iloc[-1] > 85:
-            if acao['K'].iloc[-1] < acao['D'].iloc[-1]:
-                indicador = 10
-                msg = f'{listasigla[-1]} VENDA/H-N1 - Preço atual: {sinal_preco}'
-                envia_mensagem(msg, chat_id, my_token)
-            else:
-                indicador = 0
-        elif acao['RSI'].iloc[-1] < 35 and acao['K'].iloc[-1] < 25:
-            if acao['K'].iloc[-1] > acao['D'].iloc[-1]:
-                indicador = 4
-                msg = f'{listasigla[-1]} COMPRA/H-N1 - Preço atual: {sinal_preco}'
-                envia_mensagem(msg, chat_id, my_token)
-            else:
-                indicador = 0
-        else:
-            indicador = 0
-
-        print(indicador)
-        listaindicador.append(indicador)
-
-    st.markdown("INDICATORS")
-
-    # Figuras
-
-    fig1, fig2 = st.columns(2)
-
-    with fig1:
-        st.markdown("Indicadores - CARTEIRA Bloco 1")
-        fig, ax = plt.subplots()
-        # Use automatic FuncFormatter creation
-        ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[0:5], listaindicador[0:5])
-        st.pyplot(plt)
-
-    with fig2:
-        st.markdown("Indicadores - CARTEIRA Bloco 2")
-        fig, ax = plt.subplots()
-        # Use automatic FuncFormatter creation
-        ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[5:11], listaindicador[5:11])
-        st.pyplot(plt)
-
-    st.markdown("<hr/>", unsafe_allow_html=True)
-
-if col2 == "CARTEIRA - INDICADORES: NÍVEL II":
-    st.write(
-        """
-            "CARTEIRA - INDICADORES: NÍVEL II"
-        """
-    )
-
-    acoes = ['BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'NGRD3.SA', 'SAPR11.SA', 'VIIA3.SA', 'SUZB3.SA', 'CIEL3.SA',
-             'KLBN11.SA', 'MNPR3.SA', 'OIBR3.SA']
-
-    listasigla = []
-    listaindicador = []
-
-    for acao in acoes:
-
-        listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1y", interval="1h")
-        sinal_preco = acao['Adj Close'].iloc[-1]
-
-
-        def computeRSI(data, time_window):
-            diff = data.diff(1).dropna()  # diff in one field(one day)
-
-            # this preservers dimensions off diff values
-            up_chg = 0 * diff
-            down_chg = 0 * diff
-
-            # up change is equal to the positive difference, otherwise equal to zero
-            up_chg[diff > 0] = diff[diff > 0]
-
-            # down change is equal to negative deifference, otherwise equal to zero
-            down_chg[diff < 0] = diff[diff < 0]
-
-            # check pandas documentation for ewm
-            # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.ewm.html
-            # values are related to exponential decay
-            # we set com=time_window-1 so we get decay alpha=1/time_window
-            up_chg_avg = up_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-            down_chg_avg = down_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
-
-            rs = abs(up_chg_avg / down_chg_avg)
-            rsi = 100 - 100 / (1 + rs)
-            return rsi
-
-
-        acao['RSI'] = computeRSI(acao['Adj Close'], 14)
-
-
-        def stochastic(data, k_window, d_window, window):
-
-            # input to function is one column from df
-            # containing closing price or whatever value we want to extract K and D from
-
-            min_val = data.rolling(window=window, center=False).min()
-            max_val = data.rolling(window=window, center=False).max()
-
-            stoch = ((data - min_val) / (max_val - min_val)) * 100
-
-            K = stoch.rolling(window=k_window, center=False).mean()
-            # K = stoch
-
-            D = K.rolling(window=d_window, center=False).mean()
-            return K, D
-
-
-        acao['K'], acao['D'] = stochastic(acao['RSI'], 3, 3, 14)
-
-        if acao['RSI'].iloc[-1] > 70 and acao['K'].iloc[-1] > 90:
-            if acao['K'].iloc[-1] < acao['D'].iloc[-1]:
-                indicador = 10
-                msg = f'{listasigla[-1]} VENDA/H-N2 - Preço atual: {sinal_preco}'
-                envia_mensagem(msg, chat_id, my_token)
-            else:
-                indicador = 0
-        elif acao['RSI'].iloc[-1] < 30 and acao['K'].iloc[-1] < 20:
-            if acao['K'].iloc[-1] > acao['D'].iloc[-1]:
-                indicador = 4
-                msg = f'{listasigla[-1]} COMPRA/H-N2 - Preço atual: {sinal_preco}'
-                envia_mensagem(msg, chat_id, my_token)
-            else:
-                indicador = 0
-        else:
-            indicador = 0
-
-        print(indicador)
-        listaindicador.append(indicador)
-
-    st.markdown("INDICATORS")
-
-    # Figuras
-
-    fig1, fig2 = st.columns(2)
-
-    with fig1:
-        st.markdown("Indicadores - CARTEIRA Bloco 1")
-        fig, ax = plt.subplots()
-        # Use automatic FuncFormatter creation
-        ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[0:5], listaindicador[0:5])
-        st.pyplot(plt)
-
-    with fig2:
-        st.markdown("Indicadores - CARTEIRA Bloco 2")
-        fig, ax = plt.subplots()
-        # Use automatic FuncFormatter creation
-        ax = fig.add_axes([0, 0, 1, 1])
-        ax.bar(listasigla[5:11], listaindicador[5:11])
-        st.pyplot(plt)
-
-    st.markdown("<hr/>", unsafe_allow_html=True)
 
 if col2 == "ANÁLISE TÉCNICA":
     st.write(
@@ -3562,7 +3341,7 @@ if col2 == "ANÁLISE TÉCNICA":
 if col2 == "INDICADORES NÍVEL I":
     st.write(
         """
-            "INDICADORES NÍVEL I"
+            "INDICADORES NÍVEL I - INDICADOR STOCRSI HORA"
         """
     )
 
@@ -3782,7 +3561,7 @@ if col2 == "INDICADORES NÍVEL I":
 if col2 == "INDICADORES NÍVEL II ":
     st.write(
         """
-            "INDICADORES NÍVEL II"
+            "INDICADORES NÍVEL II - INDICADOR STOCRSI DIA"
         """
     )
 
