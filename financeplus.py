@@ -31,7 +31,7 @@ prices = pd.DataFrame()
 a=pd.DataFrame()
 
 start = datetime.datetime(2021, 4, 1)
-end = datetime.datetime(2022, 1, 30)
+end = datetime.datetime(2022, 9, 30)
 
 ##### INSERINDO BARRA ####
 st.sidebar.title("OPERAÇÕES: SEMANA")
@@ -2476,7 +2476,7 @@ if col0 == "INDICADORES NÍVEL I ":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1mo", interval="1wk")
+        acao = yf.download(tickers=acao, period="6mo", interval="1wk")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
@@ -2695,7 +2695,7 @@ if col0 == "INDICADORES: NÍVEL II ":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1mo", interval="1wk")
+        acao = yf.download(tickers=acao, period="6mo", interval="1wk")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
