@@ -2695,7 +2695,7 @@ if col0 == "INDICADORES: NÍVEL II ":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="6mo", interval="1wk")
+        acao = yf.download(tickers=acao, period="1y", interval="1wk")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
@@ -2915,7 +2915,7 @@ if col == "INDICADORES NÍVEL I":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1mo", interval="1d")
+        acao = yf.download(tickers=acao, period="1y", interval="1d")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
@@ -3134,7 +3134,7 @@ if col == "INDICADORES: NÍVEL II":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1mo", interval="1d")
+        acao = yf.download(tickers=acao, period="1y", interval="1d")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
@@ -3346,7 +3346,7 @@ if col2 == "CARTEIRA - INDICADORES: NÍVEL I":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1mo", interval="1h")
+        acao = yf.download(tickers=acao, period="1y", interval="1h")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
@@ -3457,7 +3457,7 @@ if col2 == "CARTEIRA - INDICADORES: NÍVEL II":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1mo", interval="1h")
+        acao = yf.download(tickers=acao, period="1y", interval="1h")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
@@ -3583,7 +3583,7 @@ if col2 == "INDICADORES NÍVEL I":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1mo", interval="1h")
+        acao = yf.download(tickers=acao, period="1y", interval="1h")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
@@ -3803,7 +3803,7 @@ if col2 == "INDICADORES NÍVEL II ":
     for acao in acoes:
 
         listasigla.append(acao)
-        acao = yf.download(tickers=acao, period="1mo", interval="1h")
+        acao = yf.download(tickers=acao, period="1y", interval="1h")
         sinal_preco = acao['Adj Close'].iloc[-1]
 
 
