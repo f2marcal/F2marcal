@@ -34,9 +34,15 @@ start = datetime.datetime(2021, 4, 1)
 end = datetime.datetime(2022, 1, 30)
 
 ##### INSERINDO BARRA ####
+st.sidebar.title("OPERAÇÕES: SEMANA")
+
+col0 = st.sidebar.selectbox("SELECIONE UMA OPÇÃO:", ["", "ANÁLISE TÉCNICA", "INDICADORES NÍVEL I", "INDICADORES: NÍVEL II"])
+
+##### INSERINDO BARRA ####
 st.sidebar.title("OPERAÇÕES: DIA")
 
 col = st.sidebar.selectbox("SELECIONE UMA OPÇÃO:", ["", "ANÁLISE TÉCNICA" , "INDICADORES NÍVEL I", "INDICADORES: NÍVEL II"])
+
 
 ##### INSERINDO BARRA 2 ####
 st.sidebar.title("OPERAÇÕES: HORA")
@@ -2446,6 +2452,445 @@ if col == "ANÁLISE TÉCNICA":
     plt.axhline(80, linestyle='--', alpha=0.5)
     plt.axhline(100, linestyle='--', alpha=0.1)
     st.pyplot(plt)
+
+if col0 == "INDICADORES NÍVEL I":
+    st.write(
+        """
+            "INDICADORES NÍVEL I"
+        """
+    )
+    acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA',
+             'NGRD3.SA',
+             'DMMO3.SA', 'PRIO3.SA', 'SAPR11.SA', 'TASA4.SA', 'VIIA3.SA', 'PETR4.SA', 'ELET3.SA', 'MGLU3.SA',
+             'SULA11.SA', 'BBSE3.SA', 'USIM5.SA', 'CSNA3.SA', 'ITUB4.SA', 'ENBR3.SA', 'CIEL3.SA', 'TEKA4.SA',
+             'CVCB3.SA', 'OIBR3.SA', 'BRML3.SA', 'POSI3.SA', 'BRFS3.SA', 'JBSS3.SA', 'BBDC4.SA', 'COGN3.SA',
+             'ITSA4.SA',
+             'LWSA3.SA', 'VIVR3.SA', 'CMIN3.SA', 'IRBR3.SA', 'WEGE3.SA', 'CXSE3.SA', 'MRFG3.SA', 'EMBR3.SA',
+             'RAIL3.SA',
+             'AZUL4.SA', 'LUPA3.SA', 'POMO4.SA', 'SUZB3.SA', 'TOTS3.SA', 'GOLL4.SA', 'RCSL4.SA', 'KLBN11.SA',
+             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA']
+
+    listasigla = []
+    listaindicador = []
+
+    for acao in acoes:
+
+        listasigla.append(acao)
+        acao = web.get_data_yahoo(acao, start, end)
+        sinal_preco = acao['Adj Close'].iloc[-1]
+
+
+        def computeRSI(data, time_window):
+            diff = data.diff(1).dropna()  # diff in one field(one day)
+
+            # this preservers dimensions off diff values
+            up_chg = 0 * diff
+            down_chg = 0 * diff
+
+            # up change is equal to the positive difference, otherwise equal to zero
+            up_chg[diff > 0] = diff[diff > 0]
+
+            # down change is equal to negative deifference, otherwise equal to zero
+            down_chg[diff < 0] = diff[diff < 0]
+
+            # check pandas documentation for ewm
+            # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.ewm.html
+            # values are related to exponential decay
+            # we set com=time_window-1 so we get decay alpha=1/time_window
+            up_chg_avg = up_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
+            down_chg_avg = down_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
+
+            rs = abs(up_chg_avg / down_chg_avg)
+            rsi = 100 - 100 / (1 + rs)
+            return rsi
+
+
+        acao['RSI'] = computeRSI(acao['Adj Close'], 14)
+
+
+        def stochastic(data, k_window, d_window, window):
+
+            # input to function is one column from df
+            # containing closing price or whatever value we want to extract K and D from
+
+            min_val = data.rolling(window=window, center=False).min()
+            max_val = data.rolling(window=window, center=False).max()
+
+            stoch = ((data - min_val) / (max_val - min_val)) * 100
+
+            K = stoch.rolling(window=k_window, center=False).mean()
+            # K = stoch
+
+            D = K.rolling(window=d_window, center=False).mean()
+            return K, D
+
+
+        acao['K'], acao['D'] = stochastic(acao['RSI'], 3, 3, 14)
+
+        if acao['RSI'].iloc[-1] > 65 and acao['K'].iloc[-1] > 85:
+            if acao['K'].iloc[-1] < acao['D'].iloc[-1]:
+                indicador = 10
+                msg = f'{listasigla[-1]} VENDA/D-N1 - Preço atual: {sinal_preco}'
+                envia_mensagem(msg, chat_id, my_token)
+            else:
+                indicador = 0
+        elif acao['RSI'].iloc[-1] < 35 and acao['K'].iloc[-1] < 25:
+            if acao['K'].iloc[-1] > acao['D'].iloc[-1]:
+                indicador = 4
+                msg = f'{listasigla[-1]} COMPRA/D-N1 - Preço atual: {sinal_preco}'
+                envia_mensagem(msg, chat_id, my_token)
+            else:
+                indicador = 0
+        else:
+            indicador = 0
+
+        print(indicador)
+        listaindicador.append(indicador)
+
+    st.markdown("INDICATORS")
+
+    # Figuras
+
+    fig1, fig2 = st.columns(2)
+    fig3, fig4 = st.columns(2)
+    fig5, fig6 = st.columns(2)
+    fig7, fig8 = st.columns(2)
+    fig9, fig10 = st.columns(2)
+    fig11, fig12 = st.columns(2)
+    fig13, fig14 = st.columns(2)
+
+    with fig1:
+        st.markdown("Ações bloco 1")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[0:5], listaindicador[0:5])
+        st.pyplot(plt)
+
+    with fig2:
+        st.markdown("Ações Bloco 2")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[5:10], listaindicador[5:10])
+        st.pyplot(plt)
+
+    with fig3:
+        st.markdown("Ações bloco 3")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[10:15], listaindicador[10:15])
+        st.pyplot(plt)
+
+    with fig4:
+        st.markdown("Ações Bloco 4")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[15:20], listaindicador[15:20])
+        st.pyplot(plt)
+
+    with fig5:
+        st.markdown("Ações bloco 5")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[20:25], listaindicador[20:25])
+        st.pyplot(plt)
+
+    with fig6:
+        st.markdown("Ações Bloco 6")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[25:30], listaindicador[25:30])
+        st.pyplot(plt)
+
+    with fig7:
+        st.markdown("Ações bloco 7")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[30:35], listaindicador[30:35])
+        st.pyplot(plt)
+
+    with fig8:
+        st.markdown("Ações Bloco 8")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[35:40], listaindicador[35:40])
+        st.pyplot(plt)
+
+    with fig9:
+        st.markdown("Ações bloco 9")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[40:45], listaindicador[40:45])
+        st.pyplot(plt)
+
+    with fig10:
+        st.markdown("Ações Bloco 10")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[45:50], listaindicador[45:50])
+        st.pyplot(plt)
+
+    with fig11:
+        st.markdown("Ações bloco 11")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[50:55], listaindicador[50:55])
+        st.pyplot(plt)
+
+    with fig12:
+        st.markdown("Ações Bloco 12")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[55:60], listaindicador[55:60])
+        st.pyplot(plt)
+    with fig13:
+        st.markdown("Ações bloco 13")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[60:65], listaindicador[60:65])
+        st.pyplot(plt)
+
+    with fig14:
+        st.markdown("Ações Bloco 14")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[65:70], listaindicador[65:70])
+        st.pyplot(plt)
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
+
+if col0 == "INDICADORES: NÍVEL II":
+    st.write(
+        """
+            "INDICADORES NÍVEL II"
+        """
+    )
+    acoes = ['ABEV3.SA', 'BBAS3.SA', 'BEEF3.SA', 'ETER3.SA', 'GGBR4.SA', 'INTB3.SA', 'KLBN3.SA',
+             'NGRD3.SA',
+             'DMMO3.SA', 'PRIO3.SA', 'SAPR11.SA', 'TASA4.SA', 'VIIA3.SA', 'PETR4.SA', 'ELET3.SA', 'MGLU3.SA',
+             'SULA11.SA', 'BBSE3.SA', 'USIM5.SA', 'CSNA3.SA', 'ITUB4.SA', 'ENBR3.SA', 'CIEL3.SA', 'TEKA4.SA',
+             'CVCB3.SA', 'OIBR3.SA', 'BRML3.SA', 'POSI3.SA', 'BRFS3.SA', 'JBSS3.SA', 'BBDC4.SA', 'COGN3.SA',
+             'ITSA4.SA',
+             'LWSA3.SA', 'VIVR3.SA', 'CMIN3.SA', 'IRBR3.SA', 'WEGE3.SA', 'CXSE3.SA', 'MRFG3.SA', 'EMBR3.SA',
+             'RAIL3.SA',
+             'AZUL4.SA', 'LUPA3.SA', 'POMO4.SA', 'SUZB3.SA', 'TOTS3.SA', 'GOLL4.SA', 'RCSL4.SA', 'KLBN11.SA',
+             'B3SA3.SA', '^BVSP','FHER3.SA', 'BBDC4.SA', 'NTCO3.SA','CPLE6.SA']
+
+    listasigla = []
+    listaindicador = []
+
+    for acao in acoes:
+
+        listasigla.append(acao)
+        acao = yf.download(tickers=acao, period="1mo", interval="1wk")
+        sinal_preco = acao['Adj Close'].iloc[-1]
+
+
+        def computeRSI(data, time_window):
+            diff = data.diff(1).dropna()  # diff in one field(one day)
+
+            # this preservers dimensions off diff values
+            up_chg = 0 * diff
+            down_chg = 0 * diff
+
+            # up change is equal to the positive difference, otherwise equal to zero
+            up_chg[diff > 0] = diff[diff > 0]
+
+            # down change is equal to negative deifference, otherwise equal to zero
+            down_chg[diff < 0] = diff[diff < 0]
+
+            # check pandas documentation for ewm
+            # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.ewm.html
+            # values are related to exponential decay
+            # we set com=time_window-1 so we get decay alpha=1/time_window
+            up_chg_avg = up_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
+            down_chg_avg = down_chg.ewm(com=time_window - 1, min_periods=time_window).mean()
+
+            rs = abs(up_chg_avg / down_chg_avg)
+            rsi = 100 - 100 / (1 + rs)
+            return rsi
+
+
+        acao['RSI'] = computeRSI(acao['Adj Close'], 14)
+
+
+        def stochastic(data, k_window, d_window, window):
+
+            # input to function is one column from df
+            # containing closing price or whatever value we want to extract K and D from
+
+            min_val = data.rolling(window=window, center=False).min()
+            max_val = data.rolling(window=window, center=False).max()
+
+            stoch = ((data - min_val) / (max_val - min_val)) * 100
+
+            K = stoch.rolling(window=k_window, center=False).mean()
+            # K = stoch
+
+            D = K.rolling(window=d_window, center=False).mean()
+            return K, D
+
+
+        acao['K'], acao['D'] = stochastic(acao['RSI'], 3, 3, 14)
+
+        if acao['RSI'].iloc[-1] > 70 and acao['K'].iloc[-1] > 90:
+            if acao['K'].iloc[-1] < acao['D'].iloc[-1]:
+                indicador = 10
+                msg = f'{listasigla[-1]} VENDA/D-N2 - Preço atual: {sinal_preco}'
+                envia_mensagem(msg, chat_id, my_token)
+            else:
+                indicador = 0
+        elif acao['RSI'].iloc[-1] < 30 and acao['K'].iloc[-1] < 20:
+            if acao['K'].iloc[-1] > acao['D'].iloc[-1]:
+                indicador = 4
+                msg = f'{listasigla[-1]} COMPRA/D-N2 - Preço atual: {sinal_preco}'
+                envia_mensagem(msg, chat_id, my_token)
+            else:
+                indicador = 0
+        else:
+            indicador = 0
+
+        print(indicador)
+        listaindicador.append(indicador)
+
+    st.markdown("INDICATORS")
+
+    # Figuras
+
+    fig1, fig2 = st.columns(2)
+    fig3, fig4 = st.columns(2)
+    fig5, fig6 = st.columns(2)
+    fig7, fig8 = st.columns(2)
+    fig9, fig10 = st.columns(2)
+    fig11, fig12 = st.columns(2)
+    fig13, fig14 = st.columns(2)
+
+    with fig1:
+        st.markdown("Ações bloco 1")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[0:5], listaindicador[0:5])
+        st.pyplot(plt)
+
+    with fig2:
+        st.markdown("Ações Bloco 2")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[5:10], listaindicador[5:10])
+        st.pyplot(plt)
+
+    with fig3:
+        st.markdown("Ações bloco 3")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[10:15], listaindicador[10:15])
+        st.pyplot(plt)
+
+    with fig4:
+        st.markdown("Ações Bloco 4")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[15:20], listaindicador[15:20])
+        st.pyplot(plt)
+
+    with fig5:
+        st.markdown("Ações bloco 5")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[20:25], listaindicador[20:25])
+        st.pyplot(plt)
+
+    with fig6:
+        st.markdown("Ações Bloco 6")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[25:30], listaindicador[25:30])
+        st.pyplot(plt)
+
+    with fig7:
+        st.markdown("Ações bloco 7")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[30:35], listaindicador[30:35])
+        st.pyplot(plt)
+
+    with fig8:
+        st.markdown("Ações Bloco 8")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[35:40], listaindicador[35:40])
+        st.pyplot(plt)
+
+    with fig9:
+        st.markdown("Ações bloco 9")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[40:45], listaindicador[40:45])
+        st.pyplot(plt)
+
+    with fig10:
+        st.markdown("Ações Bloco 10")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[45:50], listaindicador[45:50])
+        st.pyplot(plt)
+
+    with fig11:
+        st.markdown("Ações bloco 11")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[50:55], listaindicador[50:55])
+        st.pyplot(plt)
+
+    with fig12:
+        st.markdown("Ações Bloco 12")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[55:60], listaindicador[55:60])
+        st.pyplot(plt)
+    with fig13:
+        st.markdown("Ações bloco 13")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[60:65], listaindicador[60:65])
+        st.pyplot(plt)
+
+    with fig14:
+        st.markdown("Ações Bloco 14")
+        fig, ax = plt.subplots()
+        # Use automatic FuncFormatter creation
+        ax = fig.add_axes([0, 0, 1, 1])
+        ax.bar(listasigla[65:70], listaindicador[65:70])
+        st.pyplot(plt)
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
+ ##################################################################
 
 if col == "INDICADORES NÍVEL I":
     st.write(
