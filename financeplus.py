@@ -44,10 +44,7 @@ st.sidebar.title("OPERAÇÕES: DIA")
 col = st.sidebar.selectbox("SELECIONE UMA OPÇÃO:", ["", "ANÁLISE TÉCNICA" , "INDICADORES NÍVEL I", "INDICADORES: NÍVEL II"])
 
 
-##### INSERINDO BARRA 2 ####
-st.sidebar.title("OPERAÇÕES: HORA")
 
-col2 = st.sidebar.selectbox("SELECIONE UMA OPÇÃO:", ["","ANÁLISE TÉCNICA" , "INDICADORES NÍVEL I", "INDICADORES NÍVEL II "])
 
 
 ##### INSERINDO BARRA 3 CRIPTOMOEDAS ####
