@@ -3648,7 +3648,7 @@ if col3 == "INDICADORES NÍVEL I":
             "CRIPTOMOEDAS - INDICADORES: NÍVEL I"
         """
     )
-    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC','BTT1-USD','STX-BTC','DOT1-BTC','AVAX-BTC','ETH-BTC','YGG-BTC','GXS-BTC','ROSE-BTC','ATOM-BTC','MANA-BTC', 'SNM-BUSD']
+    acoes = ['SHIB-USD','DOGE-BTC','IOTX-BTC','XRP-BTC','BTT1-USD','STX-BTC','AVAX-BTC','ETH-BTC','YGG-BTC','GXS-BTC','ROSE-BTC','ATOM-BTC','MANA-BTC', 'SNM-BUSD']
 
     listasigla = []
     listaindicador = []
