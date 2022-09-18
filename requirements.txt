@@ -11,4 +11,4 @@ python-telegram-bot==13.7
 streamlit==0.87.0
 yfinance==0.1.63
 jsonschema==3.2.0
-ipython==8.5.0 
+ipython
